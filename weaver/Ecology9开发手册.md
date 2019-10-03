@@ -130,7 +130,7 @@ cology.password = password
 
 > 前端显示
 
-![1570109435919](.\asset\1570109435919.png)
+<img src=".\asset\1570109435919.png" alt="1570109435919"  />
 
 - **配置`ecode`使用**
 
@@ -169,4 +169,3 @@ cology.password = password
 - 页面扩展同样可以配置 `ecode`使用，将**链接目标地址**改成: `javascript: window.g.test()`即可，建议这样做，方便后续代码维护。
 
 ## 3.3 [E9组件库](http://203.110.166.60:8087/spa/coms/index.html#/pc/doc/common-index)
-
