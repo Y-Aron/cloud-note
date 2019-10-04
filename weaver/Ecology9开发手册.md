@@ -600,6 +600,14 @@ try {
 
 #### 4.4.3 Mybatis的使用
 
+> 目前E9没有成熟的使用Mybatis的方案，以下是通过自己的研究给出一个不成熟的方案，有`Bug`概不负责！
+>
+> 支持多数据源，数据源配置如下：
+>
+> 后端应用中心 -> 集成中心-> 数据源设置 -> 新建
+>
+> <img src=".\asset\1570191781927.png" alt="1570191781927"  />
+
 > **`xml` ⽅式开发**
 
 **创建 `mapper` 接⼝**
@@ -651,6 +659,146 @@ public interface HrmMapper {
 
 - 获取 `Mapper`
 
+```java
+package com.engine.wcode.db;
 
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import weaver.conn.ConnectionPool;
+import weaver.conn.WeaverConnection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import static weaver.conn.mybatis.MyBatisFactory.sqlSessionFactory;
+
+/**
+* @author Y-Aron
+* @create 2019/5/8
+*/
+public class MapperUtil {
+
+    private static final Map<Class, Object> cacheMapper = new ConcurrentHashMap<>(1);
+
+    private static final Map<String, SqlSession> cacheSqlSession = new ConcurrentHashMap<>(1);
+
+    public static <T> T getMapper(Class<T> clazz) {
+        return MapperUtil.getMapper(clazz, false);
+    }
+
+    public static <T> T getMapper(Class<T> clazz, boolean enableCache) {
+        return MapperUtil.getMapper(clazz, null, ExecutorType.SIMPLE, enableCache);
+    }
+
+    public static <T> T getMapper(Class<T> clazz, String dataSource) {
+        return MapperUtil.getMapper(clazz, dataSource, false);
+    }
+
+    public static <T> T getMapper(Class<T> clazz, String dataSource, boolean enableCache) {
+        return MapperUtil.getMapper(clazz, dataSource, ExecutorType.SIMPLE, enableCache);
+    }
+
+    public static <T> T getMapper(Class<T> clazz, String dataSource, ExecutorType executorType, boolean enableCache) {
+        String threadName = Thread.currentThread().getName();
+        SqlSession sqlSession = cacheSqlSession.get(threadName);
+        if (sqlSession == null) {
+            ConnectionPool pool = ConnectionPool.getInstance();
+            WeaverConnection connection = pool.getConnection(dataSource);
+            Configuration config = sqlSessionFactory.getConfiguration();
+            if (executorType == null) {
+                executorType = config.getDefaultExecutorType();
+            }
+            if (enableCache) {
+                config.setLocalCacheScope(LocalCacheScope.STATEMENT);
+            }
+            sqlSession = sqlSessionFactory.openSession(executorType, connection);
+        }
+        cacheSqlSession.put(threadName, sqlSession);
+        return MapperUtil.getMapper(clazz, sqlSession);
+    }
+
+    public static <T> T getMapper(Class<T> clazz, SqlSession sqlSession) {
+        if (cacheMapper.containsKey(clazz)) {
+            //noinspection unchecked
+            return (T) cacheMapper.get(clazz);
+        }
+        Configuration config = sqlSession.getConfiguration();
+        if (!config.hasMapper(clazz)) {
+            config.addMapper(clazz);
+        }
+        T mapper = sqlSession.getMapper(clazz);
+        cacheMapper.put(clazz, mapper);
+        return mapper;
+    }
+
+    private static SqlSession getCurrentSqlSession() {
+        if (cacheSqlSession.size() == 0) return null;
+        return cacheSqlSession.get(Thread.currentThread().getName());
+    }
+}
+```
 
 - 数据库操作
+
+```java
+HrmMapper mapper = MapperUtil.getMapper(HrmMapper.class);
+mapper.selectHrm();
+```
+
+### 4.5 缓存SDK
+
+> 缓存基类：`Util_DataCache`
+
+| 方法名称                                                 | 方法作用                                                  |
+| -------------------------------------------------------- | --------------------------------------------------------- |
+| getObjVal(String name)                                   | 从所有缓存获取 缓存数据 (主要函数)                        |
+| setObjVal(String name, Object value)                     | 设置所有缓存数据 (主要函数)                               |
+| setObjVal(String name, Object value,int seconds)         | 设置所有缓存数据 支持 超时自动消失 (主要函数)             |
+| containsKey(String name)                                 | 判断该键名的所有缓存是否存在                              |
+| clearVal(String name)                                    | 清除该键名的所有缓存                                      |
+| setObjValWithEh(String name,Object value)                | 设置本地缓存 ( 特定情况下使用）                           |
+| getObjValWithEh(String name)                             | 获取本地缓存（特定情况下使用）                            |
+| setObjValWithRedis(String name,Object value)             | 设置Redis缓存 需要自己释放数据( 特定情况下使用）          |
+| setObjValWithRedis(String name,Object value,int seconds) | 单独设置Redis缓存 超时时间(s)后释放数据( 特定情况下使用） |
+| getObjValWithRedis(String name)                          | 单独获取Redis缓存( 特定情况下使用）                       |
+| containsKeylWithEh(String name)                          | 判断本地缓存是否存在该键名( 特定情况下使用）              |
+| clearValWithEh(String name)                              | 清除本地缓存( 特定情况下使用）                            |
+| containsKeyWithRedis(String name)                        | 判断Redis上是否存在该键名( 特定情况下使用）               |
+| clearValWithRedis(String name)                           | 清除Redis缓存                                             |
+
+>  检查页面
+
+`chechRedis.jsp` 检查`Redis`环境的状态
+
+`getRedis.jsp` 检查`DataKey`的数据
+
+注意数据变更后必须再次执行`setObjVal`把数据推送到`Redis`
+
+```java
+import com.cloudstore.dev.api.util.Util_DataCache;
+public Map<String,String> refreshDataFormDB() {
+    Map<String,String> map = new HashMap<String, String>();
+    Map<String,String> mapdb = getSystemIfo("y");
+    map.putAll(mapdb);
+    if(mapdb.size()>0) {
+        Util_DataCache.setObjVal(em_url, mapdb.get(em_url));
+        Util_DataCache.setObjVal(em_corpid, mapdb.get(em_corpid));
+        Util_DataCache.setObjVal(accesstoken,mapdb.get(accesstoken));
+        Util_DataCache.setObjVal(ec_id,mapdb.get(ec_id));
+        Util_DataCache.setObjVal(ec_url, mapdb.get(ec_url));
+        Util_DataCache.setObjVal(ec_name, mapdb.get(ec_name));
+        Util_DataCache.setObjVal(rsa_pub, mapdb.get(rsa_pub));
+        Util_DataCache.setObjVal(ec_version, mapdb.get(ec_version));
+        Util_DataCache.setObjVal(ec_iscluster, mapdb.get(ec_iscluster));
+        Util_DataCache.setObjVal(em_url, mapdb.get(em_url));
+        Util_DataCache.setObjVal(em_url_open, mapdb.get(em_url_open));
+    }
+    return map;
+}
+```
+
+## 5. 对接异构系统
+
+### 5.1 [接口白名单配置](http://note.youdao.com/noteshare?id=14e6d168a26512c0405727cd1585d9f6&sub=986DB6BD6436413F9F7F278FE94AEA2A)
+
+### 5.2 [Token认证](./Token异构系统认证.md)
+
