@@ -176,7 +176,7 @@ cology.password = password
 
 ### 4.1 `Java`项目环境搭建
 
-#### 4.1.1 `web.xml` 配置部分介绍
+#### 4.1.1 `web.xml` 部分配置
 
 > `API` 接口的`xml`配置
 
@@ -242,12 +242,12 @@ cology.password = password
 
 > 一般情况下遵循以下项目结构进行后端开发
 
-其中，`com.api.aron`和`com.engine.aron`中的 `aron`为自定义包名，不与已有的包重复即可。
+其中，`com.api.wcode`和`com.engine.wcode`中的 `wcode`为自定义包名，不与已有的包重复即可。
 
 ```xml-dtd
-com.api.aron			
+com.api.wcode			
 		|-- web			接口定义层
-com.engine.aron
+com.engine.wcode
 		|-- web 		接口实现层
 		|-- service 	服务定义层
 			|-- impl 	服务实现层
@@ -274,7 +274,7 @@ com.engine.aron
 | 集成     | com.api.integration | /api/integration/… |
 | 微博     | com.api.blog        | /api/blog/…        |
 
-### 4.3 其他接口
+### 4.3 自定义`Java`接口
 
 #### 4.3.1 流程节点前后附加操作
 
@@ -285,19 +285,15 @@ com.engine.aron
 参考代码如下
 
 ```java
-package com.api.aron;
+package com.engine.wcode.action;
 
+import com.weaver.general.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import weaver.general.Util;
 import weaver.hrm.User;
 import weaver.interfaces.workflow.action.Action;
 import weaver.soa.workflow.request.*;
 
-/**
- * @author: Y-Aron
- * @create: 2018-12-03 10:37
- **/
 public class TestAction implements Action {
 
     private String customParam; //自定义参数
@@ -413,10 +409,248 @@ public class TestAction implements Action {
 >
 > <img src=".\asset\1570114991641.png" alt="1570114991641"  />
 
-<img src=".\asset\1570114849402.png" alt="1570114849402"  />
+<img src=".\asset\1570158010000.png" alt="1570158010000"  />
 
 ####  4.3.2  页面扩展接口
 
+> 页面扩展  -> 接口动作 -> 自定义接口动作
+>
+> 执行页面扩展的后续操作，通过配置自定义 `Java`接口动作类实现。
+>
+> 接口动作类文件必须是类全名。该类必须继承 `weaver.formmode.customjavacode.AbstractModeExpandJavaCode` 方法 `public void doModeExpand(Map<String, Object> param)`
 
+参考代码
+
+```java
+package com.engine.wcode.formmode.extend;
+
+import weaver.conn.RecordSet;
+import weaver.general.Util;
+import weaver.hrm.User;
+import weaver.soa.workflow.request.RequestInfo;
+import weaver.formmode.customjavacode.AbstractModeExpandJavaCode;
+
+import java.util.Map;
+
+public class ModeExpandTemplate extends AbstractModeExpandJavaCode {
+
+    @Override
+    public void doModeExpand(Map<String, Object> param) throws Exception {
+    	// 当前用户
+        User user = (User) param.get("user");
+        int billid = -1; // 数据id
+        int modeid = -1; // 模块id
+        RequestInfo requestInfo = (RequestInfo) param.get("RequestInfo");
+        if (requestInfo != null) {
+            billid = Util.getIntValue(requestInfo.getRequestid());
+            modeid = Util.getIntValue(requestInfo.getWorkflowid());
+            if (billid > 0 && modeid > 0) {
+                RecordSet rs = new RecordSet();
+                //------请在下面编写业务逻辑代码------
+            }
+        }
+    }
+}
+```
+
+> 配置：后端应用中心 -> 建模引擎 -> 模块 
+>
+> 任选一个模块 -> 页面扩展 -> 任选一个扩展名称 -> 接口动作 -> 点击 `+` 号 -> 自定义接口动作
+>
+> <img src=".\asset\1570158149458.png" alt="1570158149458"  />
 
 #### 4.3.3 计划任务
+
+> 通过配置自定义 `Java`接口的实现类，定时执行相应的代码
+
+- 按照设定的时间定时执行任务，计划任务标识不能重复
+- 计划任务类必须是类的全名，该类必须继承 `weaver.interfaces.schedule.BaseCronJob`类,重写方法`public void execute() {}`
+- 时间格式按`Cron`表达式的定义
+
+**参考代码**
+
+```java
+package com.engine.wcode.cron;
+
+import weaver.interfaces.schedule.BaseCronJob;
+
+public class CronTemplate extends BaseCronJob {
+
+    @Override
+    public void execute() {
+    	//------请在下面编写业务逻辑代码------
+    }
+}
+```
+
+> 配置：后端应用中心 -> 集成中心 -> 计划任务 -> 任务列表 -> 新建
+>
+> <img src=".\asset\1570158310329.png" alt="1570158310329"  />
+
+> **通过计划任务列表的每个计划任务的自定义按钮，可以对每个任务进行状态操作，具体使用如下所示**
+
+<img src=".\asset\1570156694722.png" alt="1570156694722"  />
+
+状态详解：
+
+1. 启用: 计划任务将根据Cron表达式执行;
+
+2. 禁用: 计划任务将不再执行，重启服务也不会再次执行;
+
+3. 暂停: 针对计划任务进行停止，重启服务将恢复正常状态;
+
+4. 恢复: 针对暂停状态的计划任务进行恢复，恢复后计划任务将继续执行;
+
+5. 执行: 单次执行计划任务，不影响Cron表达式周期执行;
+
+6. 测试: 检查填写的计划任务类是否符合规范（继承weaver.interfaces.schedule.BaseCronJob类,重写方法public void execute() {}）
+
+#### 4.3.4 自定义按钮接口
+
+> 通过配置自定义`Java`类，判断自定义按钮在查询列表中是否显示
+
+**参考代码**
+
+```java
+package com.engine.wcode.formmode.button;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import weaver.formmode.interfaces.PopedomCommonAction;
+
+public class CustomBtnShowTemplate implements PopedomCommonAction {
+
+    private Logger logger = LoggerFactory.getLogger(CustomBtnShowTemplate.class);
+
+    /**
+     * 得到是否显示操作项
+     * @param modeid 模块id
+     * @param customid 查询列表id
+     * @param uid 当前用户id
+     * @param billid 表单数据id
+     * @param buttonname 按钮名称
+     * @retrun "true"或者"false"true显示/false不显示
+     */
+    @Override
+    public String getIsDisplayOperation(String modeid, String customid,String uid, String billid, String buttonname) {
+        logger.debug("modeId: {}", modeid);
+        logger.debug("customId: {}", customid);
+        logger.debug("uid: {}", uid);
+        logger.debug("billId: {}", billid);
+        logger.debug("buttonname: {}", buttonname);
+        return "false";
+    }
+}
+```
+
+> 配置：后端应用中心 -> 建模引擎 -> 查询
+>
+> 任选一个查询列表 -> 自定义按钮 -> 右键 -> 新建
+>
+> <img src=".\asset\1570158498273.png" alt="1570158498273"  />
+
+**前端查询列表中，由于接口中返回false，则 ==受控按钮== 不显示**
+
+<img src=".\asset\1570158575523.png" alt="1570158575523"  />
+
+### 4.4 数据库操作
+
+#### 4.4.1 CURD
+
+> 使用 `weaver.conn.RecordSet`可以对数据库进行 `CURD` 等数据库操作
+
+**参考代码：**
+
+```java
+RecordSet rs = new RecordSet();
+String sql = "select loginid, lastname from hrmresource where id=?";
+// 防止sql注入, objects 为动态参数
+rs.executeQuery(sql, 2);
+if (rs.next()) {
+	String loginid = rs.getString("loginid");
+    String lastname = rs.getString("lastname");
+}
+String updateSql = "update hrmresource lastname=? where id=?";
+// 返回是否更新成功
+boolean bool = rs.executeUpdate(sql, "孙悟空", 2);
+```
+
+#### 4.4.2  使用事务
+
+> 使用`weaver.conn.RecordSetTrans`可以对数据库进行事务操作
+
+**参考代码**
+
+```java
+RecordSetTrans rst = new RecordSetTrans();
+// 开启事务
+rst.setAutoCommit(false);
+String sql = "update hrmresource lastname=? where id=?";
+try {
+	int a = 1/0;
+    rst.executeUpdate(sql, "猪八戒", 2);
+    // 提交事务
+    rst.commit();
+} catch (Exception e) {
+    e.printStackTrace();
+    // 事务回滚                                    
+    rst.rollback();
+}
+```
+
+#### 4.4.3 Mybatis的使用
+
+> **`xml` ⽅式开发**
+
+**创建 `mapper` 接⼝**
+
+```java
+package com.engine.wcode.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+public interface TestMapper {
+	List<Map<String, String>> selectAll();
+}
+```
+
+在 `../ecology/WEB-INF/config/mapper/ `路径下创建 `test.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.engine.wcode.mapper.TestMapper">
+  <select id="selectAll" resultType="java.util.HashMap" >
+    select loginid, password, lastname from hrmresource
+  </select>
+</mapper>
+```
+
+> **注解⽅式开发**
+>
+> 与`xml`⽅式相⽐,使⽤注解开发的⽅便之处在于不⽤写`mapper.xml`⽂件
+
+**创建 `mapper` 接⼝**
+
+```java
+package com.engine.wcode.mapper;
+
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+import java.util.Map;
+
+public interface HrmMapper {
+    @Select("select loginid, password, lastname from hrmresource")
+    List<Map<String, String>> selectHrm();
+}
+```
+
+> 使用 `Mybatis` 操作数据库
+
+- 获取 `Mapper`
+
+
+
+- 数据库操作
