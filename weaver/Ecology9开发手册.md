@@ -798,7 +798,8 @@ public Map<String,String> refreshDataFormDB() {
 
 ## 5. 对接异构系统
 
-### 5.1 [接口白名单配置](http://note.youdao.com/noteshare?id=14e6d168a26512c0405727cd1585d9f6&sub=986DB6BD6436413F9F7F278FE94AEA2A)
+### 5.1 [接口白名单配置](./接口白名单配置.md)
 
 ### 5.2 [Token认证](./Token异构系统认证.md)
 
+## 6. [开发技巧](./开发技巧.md)
