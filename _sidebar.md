@@ -1,6 +1,4 @@
-* [E9开发手册](./weaver/Ecology9开发手册 "E9开发手册")
-* [Spring-IOC](./spring/spring-ioc "Spring-IOC")
-* [Spring-AOP](./spring/spring-aop "Spring-AOP")
-* [Spring-JDBC](./spring/spring-jdbc "Spring-JDBC")
+* [泛微笔记](./weaver/Ecology9开发手册 "泛微笔记")
+* [Spring笔记](./spring/spring-ioc)
 * [Mybatis入门](./mybatis/index)
 

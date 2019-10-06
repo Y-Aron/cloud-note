@@ -807,12 +807,12 @@ public Map<String,String> refreshDataFormDB() {
 
 ### 5.1 接口白名单配置
 
-> [接口白名单配置](./接口白名单配置.md)
+> [接口白名单配置](./weaver/接口白名单配置.md)
 
 ### 5.2 Token认证
 
-> [Token认证](./Token异构系统认证.md)
+> [Token认证](./weaver/Token异构系统认证.md)
 
 ## 6. 开发技巧
 
-> [开发技巧](./开发技巧.md)
+> [开发技巧](./weaver/开发技巧.md)

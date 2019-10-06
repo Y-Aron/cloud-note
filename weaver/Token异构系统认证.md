@@ -1,7 +1,7 @@
 # Token 认证步骤
 
-### 一、ECOLOGY系统配置
-#### 1、配置接口白名单
+## 1. ECOLOGY系统配置
+### 1.1 配置接口白名单
 在ecology系统代码目录中找到以下配置文件：`ecology/WEB-INF/prop/weaver_session_filter.properties`
 
 ```properties
@@ -12,7 +12,7 @@ base/sendSms;/api/integration/simplesso/hasSession;/***此处省略****/;/api/ed
 ```
 在 `unchecksessionurl=` 后面添加`/api/ec/dev/auth/regist;/api/ec/dev/auth/applytoken;`
 
-#### 2、发放许可证(appid) 在ecology系统数据库执行以下脚本示例
+### 1.2 发放许可证(appid) 在ecology系统数据库执行以下脚本示例
 
 ```
 INSERT INTO ECOLOGY_BIZ_EC(ID,APPID,NAME) VALUES("123456","EEAA5436-7577-4BE0-8C6C89E9D88805EA","上海泛微网络科技股份有限公司");
@@ -24,7 +24,7 @@ INSERT INTO ECOLOGY_BIZ_EC(ID,APPID,NAME) VALUES("123456","EEAA5436-7577-4BE0-8C
 - `APPID`：许可证号码。最终发放给异构系统的许可证号码,多个许可证号码保证唯一(对应示例：EEAA5436-7577-4BE0-8C6C-89E9D88805EA)
 - `NAME`：许可证名称。用于快速辨识许可证发放系统(对应示例：上海泛微网络科技股份有限公司)
 
-#### 3、`RSA` 算法
+## 2. `RSA` 算法
 
 ```java
 package com.engine.wcode.token;
@@ -107,7 +107,8 @@ public class RSA {
     }
 }
 ```
-`Base64Utils.java`
+
+## 3. `Base64`算法
 
 ```java
 package com.engine.wcode.token;
@@ -139,7 +140,7 @@ public class Base64Utils {
 }
 ```
 
-#### 4、认证代码案例
+## 4. 认证代码案例
 
 ```java
 package com.engine.wcode.token;
@@ -227,7 +228,7 @@ public class TestToken {
 ```
 
 
-### 三、API文档在线说明
+## 5. API文档在线说明
 
 **1、简要描述：向OA系统发送许可证信息进行注册认证**
 
