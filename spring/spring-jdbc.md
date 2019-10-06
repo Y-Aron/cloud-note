@@ -1,4 +1,4 @@
-# 1. 创建Maven项目
+## 1. 创建Maven项目
 
 > `pom.xml` 配置
 
@@ -29,9 +29,9 @@
 </dependency>
 ```
 
-# 2. 整合 `HikariCP`
+## 2. 整合 `HikariCP`
 
-## 2.1 `jdbc.xml`配置
+### 2.1 `jdbc.xml`配置
 
 ```xml
 <context:property-placeholder location="classpath:/app.properties" />
@@ -51,7 +51,7 @@
 </bean>
 ```
 
-## 2.2 `app.properties`
+### 2.2 `app.properties`
 
 ```properties
 jdbc.url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
@@ -60,7 +60,7 @@ jdbc.password=123456
 jdbc.driver=com.mysql.cj.jdbc.Driver
 ```
 
-## 2.3 `curd` 测试
+### 2.3 `curd` 测试
 
 ```java
 package org.aron.springTest;
@@ -127,9 +127,9 @@ public class TestJDBCTemplate {
 }
 ```
 
-# 3. Spring事务管理
+## 3. Spring事务管理
 
-## 3.1 `xml`配置方式
+### 3.1 `xml`配置方式
 
 - `jdbc.xml`
 ```xml
@@ -232,7 +232,7 @@ public void testInsert() {
 
 ==使用xml配置事务,当方法体中出现异常自动回滚操作==
 
-## 3.2 注解方式
+### 3.2 注解方式
 
 > `jdbc-anno.xml`
 

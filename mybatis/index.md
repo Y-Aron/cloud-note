@@ -1,4 +1,5 @@
-# 1. 创建Maven项目
+
+## 1. 创建Maven项目
 
 ```xml
 <!-- 日志框架 -->
@@ -27,7 +28,7 @@
 </dependency>
 ```
 
-# 2. 配置 `mybatis.xml`
+## 2. 配置 `mybatis.xml`
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -57,7 +58,7 @@
 </configuration>
 ```
 
-# 3. 配置`jdbc.properties`
+## 3. 配置`jdbc.properties`
 
 ```properties
 jdbc.url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
@@ -66,7 +67,7 @@ jdbc.password=123456
 jdbc.driver=com.mysql.cj.jdbc.Driver
 ```
 
-# 4. 整合 `HikariCP`
+## 4. 整合 `HikariCP`
 
 ## 4.1 配置数据源
 
@@ -109,7 +110,7 @@ public class HikariCPDataSourceFactory implements DataSourceFactory {
 }
 ```
 
-## 4.2 配置映射文件
+### 4.2 配置映射文件
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -148,9 +149,10 @@ public class HikariCPDataSourceFactory implements DataSourceFactory {
 </mapper>
 ```
 
-## 4.3 实现CURD操作
+### 4.3 实现CURD操作
 
-> **初始化 `SqlSession`**
+> 初始化 **SqlSession**
+
 ```java
 private SqlSession sqlSession;
 
@@ -163,6 +165,7 @@ public void init() throws IOException {
 ```
 
 > **使用mapper.xml中的namespace.id实现**
+
 ```java
 @Test
 public void testNamespaceId() {
@@ -208,7 +211,7 @@ public interface UserMapper {
 }
 ```
 
-# 5. Mybatis.xml详解
+## 5. Mybatis.xml详解
 
 > **配置的内容和顺序如下：**
 

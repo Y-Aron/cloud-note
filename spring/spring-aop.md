@@ -1,4 +1,4 @@
-# 1. 创建Spring的Maven项目
+## 1. 创建Spring的Maven项目
 
 > `pom.xml` 配置
 
@@ -15,9 +15,9 @@
 </dependency>
 ```
 
-# 2. 使用*.xml进行AOP配置
+## 2. 使用*.xml进行AOP配置
 
-## 2.1 导入aop命名空间
+### 2.1 导入aop命名空间
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -26,7 +26,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd" ></beans>
 ```
-## 2.2 定义通知类
+### 2.2 定义通知类
 
 ```java
 @Slf4j
@@ -79,7 +79,7 @@ public class TestXmlAop {
 }
 ```
 
-## 2.3 `xml`配置
+### 2.3 `xml`配置
 ```xml
 <!-- 配置通知对象 -->
 <bean id="xmlAop" class="org.aron.springTest.aop.TestXmlAop"/>
@@ -112,7 +112,7 @@ public class TestXmlAop {
 </aop:config>
 ```
 
-## 2.4 执行结果
+### 2.4 执行结果
 
 ```
 ---------- 前置通知开始 ----------
@@ -136,9 +136,9 @@ execution(String org.aron.springTest.bean.User.init(String,String))
 ---------- 后置通知(如果出现异常也会调用)结束! ----------
 ```
 
-# 3. 使用注解进行Aop配置
+## 3. 使用注解进行Aop配置
 
-## 3.1 导入`aop`和`context`的命名空间
+### 3.1 导入`aop`和`context`的命名空间
 
 ```xml
 <beans xmlns:aop="http://www.springframework.org/schema/aop"
@@ -146,13 +146,13 @@ execution(String org.aron.springTest.bean.User.init(String,String))
        xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"></beans>
 ```
-## 3.2 开启`aop`注解扫描器
+### 3.2 开启`aop`注解扫描器
 ```xml
 <context:component-scan base-package="org.aron.springTest.*" />
 <aop:aspectj-autoproxy/>
 ```
 
-## 3.3 定义Aspect切面类
+### 3.3 定义Aspect切面类
 ```java
 @Aspect
 @Slf4j

@@ -1,4 +1,4 @@
-# 1. 创建Spring的Maven项目
+## 1. 创建Spring的Maven项目
 
 > `pom.xml` 配置
 
@@ -10,9 +10,9 @@
 </dependency>
 ```
 
-# 2. Bean的实例化方式
+## 2. Bean的实例化方式
 
-## 2.1 无参构造函数创建对象
+### 2.1 无参构造函数创建对象
 
 > 对于这种方式, 注意Bean类中必须提供无参数构造
 ```xml
@@ -28,7 +28,8 @@
 -->
 <bean id="user" class="org.aron.springTest.bean.User" scope="prototype" destroy-method="destroy" lazy-init="true"/>
 ```
-## 2.2 静态工厂方式
+
+### 2.2 静态工厂方式
 
 > 需要创建一个工厂类,在工厂类中提供一个static返回bean对象的方法
 ```xml
@@ -44,7 +45,7 @@ public class UserFactory {
 }
 ```
 
-## 2.3 实例工厂方式
+### 2.3 实例工厂方式
 
 > 需要创建一个工厂类,在工厂类中提供一个非static的创建bean对象的方法,在配置文件中需要将工厂配置,还需要配置bean
 ```xml
@@ -61,9 +62,9 @@ public class UserFactory {
 }
 ```
 
-# 3. 获取Bean对象
+## 3. 获取Bean对象
 
-## 3.1 使用BeanFactory创建IOC容器,并获取bean对象
+### 3.1 使用BeanFactory创建IOC容器,并获取bean对象
 
 ```java
 public void testBeanFactory() {
@@ -77,7 +78,7 @@ public void testBeanFactory() {
 }
 ```
 
-## 3.2 使用 ApplicationContext创建IOC容器,并获取bean对象
+### 3.2 使用 ApplicationContext创建IOC容器,并获取bean对象
 ```java
 public void testApplicationContext() {
     ApplicationContext appContext = new ClassPathXmlApplicationContext("xmlBean.xml");
@@ -142,9 +143,9 @@ public class User extends IUser {
 public abstract class IUser {}
 ```
 
-# 4. 属性注入
+## 4. 属性注入
 
-## 4.1 构造器注入
+### 4.1 构造器注入
 
 ```xml
 <bean id="role" class="org.aron.springTest.bean.Role" />
@@ -160,7 +161,7 @@ public abstract class IUser {}
 </bean>
 ```
 
-## 4.2 `setter`方法注入
+### 4.2 `setter`方法注入
 
 ```xml
 <!--普通值类型-->
@@ -173,7 +174,7 @@ public abstract class IUser {}
 <property name="role" ref="role" />
 ```
 
-## 4.3 使用名称空间p和c进行属性注入
+### 4.3 使用名称空间p和c进行属性注入
 
 - c命名空间
 
@@ -206,7 +207,7 @@ public abstract class IUser {}
       p:role-ref="role" />
 ```
 
-## 4.4 集合属性注入
+### 4.4 集合属性注入
 - 使用<array></array>或<list></list>标签注入数组
 ```xml
 <!-- 装配数组 -->
@@ -285,7 +286,7 @@ public abstract class IUser {}
 <bean id="role" class="org.aron.springTest.bean.Role" c:roleName="roleName" c:array-ref="roleArray"/>
 ```
 
-## 4.5 使用外部属性文件
+### 4.5 使用外部属性文件
 
 ```xml
 <!--
@@ -311,7 +312,7 @@ jdbc.username=root
 jdbc.password=123456
 ```
 
-# 5. SPEL的使用
+## 5. SPEL的使用
 
 > 定义字面量
 
