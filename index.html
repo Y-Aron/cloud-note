@@ -26,6 +26,7 @@
   </script>
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="./static/md5.min.js"></script>
   <script>
     var gitalk = new Gitalk({
       clientID: 'e09a46a58e5a0809f561',
@@ -34,7 +35,8 @@
       owner: 'Y-Aron',
       admin: ['Y-Aron'],
       // facebook-like distraction free mode
-      distractionFreeMode: false
+      distractionFreeMode: false,
+      id: md5(location.href)
     })
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
