@@ -8,10 +8,10 @@
   <meta name="description" content="Description">
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
-  <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./static/docsify/theme-simple.css">
+  <link rel="stylesheet" href="./static/gitalk/gitalk.css">
   <link rel="stylesheet" href="./static/prism-onedark.css">
+  <link rel="stylesheet" href="./static/font-awesome/css/font-awesome.min.css">
   <style>
     #goTop {
       position: fixed;
@@ -41,6 +41,15 @@
     }
     .markdown-section blockquote a {
       color: blue;
+    }
+    .markdown-section pre[data-lang] code {
+      padding: 16px;
+    }
+    .markdown-section h3, .markdown-section h2{
+      margin-top: 24px;
+    }
+    .markdown-section h2{
+      font-weight: 600;
     }
   </style>
   <script>
@@ -77,8 +86,8 @@
       }
     }
   </script>
-  <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
-  <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="./static/docsify/gitalk.min.js"></script>
+  <script src="./static/gitalk/gitalk.min.js"></script>
   <script src="./static/md5.min.js"></script>
   <script>
     var gitalk = new Gitalk({
@@ -91,13 +100,11 @@
       id: md5(location.href)
     })
   </script>
-  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-java.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-properties.js"></script>
-  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
-  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <script src="./static/docsify/docsify.min.js"></script>
+  <script src="./static/prism.js"></script>
+  <script src="./static/docsify/docsify-pagination.min.js"></script>
+  <script src="./static/docsify/docsify-themeable@0.js"></script>
+  <script src="./static/docsify/zoom-image.js"></script>
 </body>
 
 </html>
