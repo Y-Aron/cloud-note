@@ -10,7 +10,7 @@
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
   <link rel="stylesheet" href="./static/prism-onedark.css">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
   <link href="https://cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css" rel="stylesheet">
   <style>
     #goTop {
@@ -19,14 +19,13 @@
       bottom: 5%;
       background-color: #fafafa;
       border: 1px solid rgba(0, 0, 0, .07);
-      border-radius: 1px;
+      border-radius: 5px;
       -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
       box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
       background-clip: padding-box;
       z-index: 999;
       cursor: pointer;
-      font-size: 18;
-      padding: 5px 13px;
+      padding: 5px 5px 0px;
       color: #364149;
     }
     .markdown-section blockquote {
@@ -75,7 +74,7 @@
 
 <body>
   <div id="app"></div>
-  <a onClick="goTop()" id="goTop"><i class="fa fa-arrow-up"></i></a>
+  <a onClick="goTop()" id="goTop"><img src="./static/top.svg"/></a>
   <script>
     window.$docsify = {
       name: '在线笔记',
