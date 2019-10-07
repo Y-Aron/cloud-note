@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
   <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./static/prism-onedark.css">
   <style>
     #goTop {
       position: fixed;
@@ -34,6 +35,12 @@
     }
     .markdown-section code:not([class*="lang-"]):not([class*="language-"]){
       white-space: normal;
+    }
+    .markdown-section blockquote p {
+      margin: 0.3rem 0;
+    }
+    .markdown-section blockquote a {
+      color: blue;
     }
   </style>
   <script>
@@ -87,7 +94,6 @@
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-java.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-properties.js"></script>
-  <script src="//unpkg.com/prismjs/components/prism-markdown.min.js"></script>
   <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
   <script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
