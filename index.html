@@ -11,19 +11,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prism-theme-one-dark/prism-onedark.css">
   <link href="https://cdn.bootcss.com/gitalk/1.5.0/gitalk.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./static/index.min.css">
-  <script>
-    function goTop() {
-      var top = document.documentElement.scrollTop || document.body.scrollTop
-      var step = Math.floor(top / 20);
-      (function () {
-        top -= step;
-        if (top > -step) {
-          document.documentElement.scrollTop == 0 ? document.body.scrollTop = top : document.documentElement.scrollTop = top;
-          setTimeout(arguments.callee, 20);
-        }
-      })();
-    }
-  </script>
 </head>
 
 <body>
@@ -35,36 +22,22 @@
       repo: 'https://github.com/Y-Aron/cloud-note',
       loadSidebar: true,
       auto2top: true,
-      // alias: {
-      //   '/.*/_sidebar.md': '/_sidebar.md'
-      // },
       subMaxLevel: 6,
       themeable: {
-        readyTransition: true, // default
-        responsiveTables: true  // default
+        readyTransition: true,
+        responsiveTables: true
       }
     }
   </script>
   <script src="https://cdn.bootcss.com/docsify/4.9.4/plugins/gitalk.min.js"></script>
   <script src="https://cdn.bootcss.com/gitalk/1.5.0/gitalk.min.js"></script>
   <script src="https://cdn.bootcss.com/blueimp-md5/2.12.0/js/md5.min.js"></script>
-  <script>
-    var gitalk = new Gitalk({
-      clientID: 'ea83ca3ebbbe67bf90ed',
-      clientSecret: 'd47c6d80e9ea136b1477a8a3b656d6b226571489',
-      repo: 'cloud-note',
-      owner: 'Y-Aron',
-      admin: ['Y-Aron'],
-      distractionFreeMode: false,
-      id: md5(location.href)
-    })
-  </script>
   <script src="https://cdn.bootcss.com/docsify/4.9.4/docsify.min.js"></script>
   <script src="https://cdn.bootcss.com/prism/9000.0.1/components/prism-java.min.js"></script>
   <script src="https://cdn.bootcss.com/prism/1.17.1/components/prism-properties.min.js"></script>
   <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
   <script src="https://cdn.bootcss.com/docsify/4.9.4/plugins/zoom-image.min.js"></script>
+  <script src="./static/index.min.js"></script>
 </body>
-
 </html>
