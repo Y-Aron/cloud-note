@@ -115,9 +115,10 @@ sudo systemctl restart docker
 ## 3. Docker常见命令
 
 - 开机启动：`systemctl enable docker.service/docker`
-- 启动`docker`：`systemctl start docker`
-- 停止`docker`：`systemctl stop docker`
-- 重启`docker`：`systemctl restart docker`
+- 启动`docker`：`systemctl start docker` ，`WSL`中应该使用 `sudo service docker start` 
+
+- 停止`docker`：`systemctl stop docker`，`WSL`中应该使用 `sudo service docker stop` 
+- 重启`docker`：`systemctl restart docker`，`WSL`中应该使用 `sudo service docker restart` 
 - 查看 `docker` 状态：`systemctl status docker`
 - 查看 `docker`概要信息：`docker info`
 - 查看 `docker` 帮助文档：`docker --help`
@@ -177,6 +178,18 @@ Successfully tagged mytomcat:latest
 - 创建 `Dockerfile`文件
 - 编写`docker`脚本
 - 构建镜像：`docker build -t NAME .`
+
+### 4.6 导入镜像
+
+> 命令：`cat 镜像文件 | docker import - 镜像名称`
+
+### 4.7 保存镜像
+
+> 命令：`docker save -o 保存的镜像名称.tar 镜像名称`
+
+### 4.8 载入镜像
+
+> 命令：` docker load --input 本地镜像名称.tar 或 docker load < 本地镜像名称.tar`
 
 ## 5. 创建容器
 
@@ -276,6 +289,5 @@ docker: Error response from daemon: driver failed programming external connectiv
 
 ```shell
 echo "export DOCKER_HOST='tcp://0.0.0.0:2375'" >> ~/.bashrc
-source ~/.bashrc
+source ~/.bashr
 ```
-
