@@ -1007,16 +1007,26 @@ import java.io.IOException;
 
 public class TestWebService {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DocumentException {
         String url = "http://www.webxml.com.cn/webservices/ChinaTVprogramWebService.asmx";
         String xml = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://WebXml.com.cn/\">\n" +
                 "   <soapenv:Header/>\n" +
                 "   <soapenv:Body>\n" +
-                "      <web:getAreaDataSet/>\n" +
+                "      <web:getTVstationDataSet>\n" +
+                "         <web:theAreaID>18</web:theAreaID>\n" +
+                "      </web:getTVstationDataSet>\n" +
                 "   </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
         String resp = WsUtils.execute(url, xml);
-        System.out.println(resp);
+        Element rootElement = WsUtils.getRootElement(resp);
+        List<Element> elements = WsUtils.getElements(rootElement, "TvStation");
+        for (Element element : elements) {
+            Element e1 = element.element("tvStationID");
+            System.out.println(e1.getTextTrim());
+            Element e2 = element.element("tvStationName");
+            System.out.println(e2.getTextTrim());
+        }
     }
 }
 ```
+
