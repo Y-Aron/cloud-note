@@ -1,3 +1,5 @@
+# Ecology9 开发手册
+
 ## 1. 环境搭建
 
 ### 1.1 Ecology安装和启动
@@ -108,6 +110,8 @@ cology.password = password
 #### 3.2.1 布局代码块
 
 > 建模布局代码块使用上与流程表单的代码块基本一致，区别在于接口的SDK不同，建模表单的所有接口统一封装在全局对象 `window.ModeForm`中。
+>
+> [建模前端接口API](https://e-cloudstore.com/ecode/doc.html?appId=e783a1d75a784d9b97fbd40fdf569f7d&tdsourcetag=s_pctim_aiomsg)
 
 #### 3.2.2 自定义按钮
 
@@ -803,16 +807,216 @@ public Map<String,String> refreshDataFormDB() {
 }
 ```
 
+### 4.6 Rest API 接口
+
+##### 4.6.1 流程表单数据接口
+
+>  https://www.evernote.com/l/AuMO8ps7HVpMlYkjCMpRC9xyc1VYIcbo1I0/ 
+
+##### 4.6.2 流程待办列表接口
+
+>  https://www.evernote.com/l/AuM0l0TdGS9OvZuHd1eztup5KNwIgFokDTU/ 
+
+##### 4.6.3 流程列表数据接口
+
+>  https://www.evernote.com/l/AuP8WpYtOmhHkYgnhs7aOKy_AL9kMACGWm4/ 
+
 ## 5. 对接异构系统
 
 ### 5.1 接口白名单配置
 
-> [接口白名单配置](./weaver/接口白名单配置.md)
+##### 5.1.1 `web.xml` 配置
+
+> 在`web.xml`中配置(兼容以前的格式使用`weaver_session_filter.properties`后可以不添加参数配置)
+>
+> `SessionCloudFilter`过滤器修改一下`unchecksessionurl`路径主要功能超时自动跳转首页
+
+- `checkurl` 头部验证路径 适用于 EM
+
+- `uncheckurl` 头部验证放行路径 适用于 EM
+
+- `unchecksessionurl`路径为不检查放行的路径（白名单）
+
+```xml
+<filter>
+    <filter-name>SessionCloudFilter</filter-name>
+    <filter-class>com.cloudstore.dev.api.service.SessionFilte</filter-class>
+    
+    <init-param>
+        <param-name>checkurl</param-name>
+        <param-value>/api/hrm/emmanager;</param-value>
+    </init-param>
+    
+    <init-param>
+        <param-name>uncheckurl</param-name>
+        <param-value>/api/ec/dev/app/getCheckSystemInfo;/api/ec/dev/app/emjoin;</param-value>
+    </init-param>
+    <init-param>
+        <param-name>unchecksessionurl</param-name>
+        <param-value></param-value>
+    </init-param>
+</filter>
+// ……(其他配置信息不动)
+```
+
+##### 5.1.2 `properties`配置
+
+- `weaver_session_filter.properties`(系统) 
+
+外部配置文件，配置放行的路径地址。(启用了`weaver_session_filter.properties`会自动覆盖原`web.xml`中的路径）
+
+- `weaver_session_filter_dev.properties`(用户自定义)
+
+用户自定义配置文件，配置放行的路径地址(项目二开的路径建议放用户定义配置文件，升级时不被覆盖)会自动覆盖web.xml 中的路径地址。
+
+```properties
+# 头部验证路径 适用于 EM
+checkurl=/api/hrm/emmanager;
+# 头部验证放行路径 适用于 EM
+uncheckurl=/api/ec/dev/app/getCheckSystemInfo;/api/ec/dev/app/emjoin;
+#  session验证放行 不检查放行的路径（白名单）
+unchecksessionurl=/api/doc/upload/mobile/uploadFile;/api/doc/upload/mobile/shareFile;/weaver/weaver.file.FileDownload;/api/ec/dev/app/getCheckSystemInfo;/api/ec/dev/app/emjoin;/api/hrm/emmanager/;
+```
 
 ### 5.2 Token认证
 
-> [Token认证](./weaver/Token异构系统认证.md)
+>  [Token认证](http://wcode.store/#/./weaver/Token异构系统认证) 
 
-## 6. 开发技巧
+## 6. 其他开发
 
-> [开发技巧](./weaver/开发技巧.md)
+### 6.1 日志配置
+
+> `Ecology`底层采用的是`log4j`日志框架, 可根据环境自定义日志配置
+>
+> `log4j`配置文件路径: `ecology/WEB-INF/log4jinit.properties`
+
+- 打开配置文件, 在文件末尾加上如下代码, 然后重启`resin`服务
+
+```properties
+# appender
+log4j.logger.debug=DEBUG,debug
+log4j.appender.debug=org.apache.log4j.DailyRollingFileAppender
+# 按日期滚动文件
+log4j.appender.debug.DatePattern='_'yyyyMMdd'.log'
+# 自定义日志文件路径
+log4j.appender.debug.File=@debug/debug.log
+log4j.appender.debug.layout=org.apache.log4j.PatternLayout
+# 输出内容格式
+log4j.appender.debug.layout.ConversionPattern=%d{HH:mm:ss.SSS}[%p] %l: %m%n
+log4j.additivity.debug=false
+```
+
+- 代码中使用: 
+
+```java
+// 获取自定义的 logger, 其中 debug为配置文件中 log4j.logger.debug中的debug
+Logger logger = LoggerFactory.getLogger("debug");
+// 支持占位符输出, 不定参数
+logger.debug("debug级别消息: {}, {}", "参数1", "参数2");
+logger.info("info级别消息!");
+logger.warn("warn级别消息!");
+logger.error("error级别消息!");
+```
+
+- 最终日志输出路径:
+
+![1570369325637](asset/1570369325637.png)
+
+**建议**: 将重要的日志以 `info` 级别以上输出, 开发的日志以 `debug` 级别输出, 这样的话再正式环境下只需修改配置, 即可实现只输出 `info` 级别的日志, 减少日志的输出!
+
+```properties
+# 将日志级别提升至INFO
+log4j.logger.debug=INFO,debug
+```
+
+### 6.2 Redis 配置
+
+- 本地下载`redis`
+- `ecology/WEB-INF/prop/weaver_new_session.properties`
+
+```properties
+#1表示启用新的session方式，其他值表示不启用
+status=1
+#用于调试的USERID
+debugUsers=
+#session id生成模式，1表示自定义生成模式（UUID模式），其他值表示中间件自定义生成模式
+useCustomSessionId=1
+#同步频率设置（单位，秒）
+#主表同步频率
+SessionTableSync=2
+#明细表同步频率
+SessionItemTableSync=5
+#超时扫描频率
+SessionOverTime=300
+#垃圾数据清理扫描频率
+SessionLeak=3600
+
+#启动模式，默认是数据库模式
+#className=weaver.session.util.DBUtil
+className=weaver.session.util.RedisSessionUtil
+#redis ip
+redisIp=127.0.0.1
+#redis port
+redisPort=6379
+#redis password
+redisPassword=123456
+enableImmediatelySync=true
+etoken=
+```
+
+### 6.3 lombok 配置
+
+- 下载 `lombok.jar`
+- `idea` 安装 `lombok plugin`
+
+![1571882600348](asset/1571882600348.png)
+
+- 代码中使用
+
+```java
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+public class TestDTO {
+    private String name;
+    private String password;
+}
+```
+
+### 6.4 Webservice 使用
+
+> 使用`SoapUI` 解析 `webservice`接口
+
+- SoapUI 介绍和使用方式可以参考博文： https://www.cnblogs.com/yatou-de/p/9273346.html 
+- 软件下载：https://pan.baidu.com/s/1j36r6_NO_pcTfNDCwjLrog，提取码: 8v9x
+
+> 使用 `HttpClient` 以 `xml` 报文形式调用 `webservice` 服务
+
+请求报文可以通过 `SoapUI` 查看
+
+![1571909908394](asset/1571909908394.png)
+
+```java
+import com.wcode.util.WsUtils;
+
+import java.io.IOException;
+
+public class TestWebService {
+
+    public static void main(String[] args) throws IOException {
+        String url = "http://www.webxml.com.cn/webservices/ChinaTVprogramWebService.asmx";
+        String xml = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://WebXml.com.cn/\">\n" +
+                "   <soapenv:Header/>\n" +
+                "   <soapenv:Body>\n" +
+                "      <web:getAreaDataSet/>\n" +
+                "   </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+        String resp = WsUtils.execute(url, xml);
+        System.out.println(resp);
+    }
+}
+```
