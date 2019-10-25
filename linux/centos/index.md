@@ -1,6 +1,65 @@
-# CentOS 7 基本使用
+# CentOS 7 入门
 
-## 1. 防火墙设置
+## 1. 配置镜像源
+
+- 备份 `repo`
+
+```shell
+[roo@localhost ~]$ cd /etc/yum.repos.d/
+[roo@localhost yum.repos.d]$ sudo mkdir repo_bak
+[roo@localhost yum.repos.d]$ sudo mv *.repo repo_bak/
+```
+
+- 配置网易开源镜像
+
+```shell
+[roo@localhost yum.repos.d]$ sudo wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
+[roo@localhost yum.repos.d]$ ls
+CentOS7-Base-163.repo repo_bak
+```
+
+- 清除并生成新的`yum`缓存
+
+```shell
+ # 清除系统所有的yum缓存
+[roo@localhost yum.repos.d]$ yum clean all
+# 生成yum缓存
+[roo@localhost yum.repos.d]$ yum makecache
+```
+
+## 2. 配置 `epel` 源
+
+- 安装 `epel` 源
+
+```shell
+[root@localhost yum.repos.d]$ sudo yum install -y epel-release
+[roo@localhost yum.repos.d]$ ls
+CentOS7-Base-163.repo  epel.repo  epel-testing.repo  repo_bak
+```
+
+- 配置阿里镜像源
+
+```shell
+[roo@localhost yum.repos.d]$ sudo wget -O /etc/yum.repos.d/epel-7.repo http://mirrors.aliyun.com/repo/epel-7.repo
+[roo@localhost yum.repos.d]$ ls
+CentOS7-Base-163.repo  epel-7.repo  epel.repo  epel-testing.repo  repo_bak
+```
+
+- 重新生成 `yum` 缓存
+
+```shell
+[roo@localhost yum.repos.d]$ yum clean all
+[roo@localhost yum.repos.d]$ yum makecache
+```
+
+- 查看`yum` 源 
+
+```shell
+[roo@localhost yum.repos.d]$ yum repolist enabled
+[roo@localhost yum.repos.d]$ yum repolist all
+```
+
+## 3. 配置防火墙
 
 > CentOS 7 安装 iptables 和 iptables-services
 

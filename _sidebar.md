@@ -2,3 +2,5 @@
 * [Spring笔记](./spring/spring-ioc)
 * [Mybatis入门](./mybatis/index)
 * [Docker入门](./docker/index "docker入门")
+
+- [CentOS 入门](./linux/centos/index)
