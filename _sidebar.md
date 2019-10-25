@@ -3,5 +3,3 @@
 * [Mybatis笔记](./mybatis/index)
 * [Docker笔记](./docker/index "docker入门")
 
-- [CentOS笔记](./linux/centos/index)
-
