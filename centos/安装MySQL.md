@@ -130,6 +130,10 @@ Reload privilege tables now? [Y/n] y                [刷新权限]
 
 ```mysql
 [root@localhost roo]# mysql -u root -p
+mysql> use mysql
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
 mysql> update user set host='%' where user='root';
 Query OK, 1 row affected (0.00 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
@@ -144,6 +148,7 @@ mysql> select host, user from user;
 | localhost | mysql.sys        |
 +-----------+------------------+
 4 rows in set (0.00 sec)
+mysql> create user 'root'@'%' identified '1';
 # 赋予任何主机访问数据的权限
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'WITH GRANT OPTION;
 ```

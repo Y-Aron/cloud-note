@@ -52,3 +52,63 @@
 - 登录服务器
 
 ![image-20191026140757053](asset/image-20191026140757053.png)
+
+## 2. 安装 MySQL
+
+### 2.1 下载软件包
+
+```shell
+sudo apt-get update
+sudo apt-get install wget
+wget https://repo.mysql.com//mysql-apt-config_0.8.14-1_all.deb
+```
+
+### 2.2 开始安装
+
+- 执行如下命令
+
+```
+sudo dpkg -i mysql-apt-config_0.8.14-1_all.deb
+```
+
+- 弹出如下界面，选择第一个
+
+![image-20191026160213258](asset/image-20191026160213258.png)
+
+- 选择MySQL版本，选择MySQL8
+
+![image-20191026160326632](asset/image-20191026160326632.png)
+
+- 回到上一个界面，选择🆗在回车
+
+![image-20191026160656021](asset/image-20191026160656021.png)
+
+- 更新系统和软件源并安装MySQL8
+
+```shell
+sudo apt update
+sudo apt install mysql-server
+```
+
+- 等待安装，直到以下界面出现时，输入密码
+
+![image-20191026163548739](asset/image-20191026163548739.png)
+
+- 安装成功, 使用 root 登录 MySQL
+
+![](asset/image-20191026163655802.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,10 +10,10 @@
 [roo@localhost yum.repos.d]$ sudo mv *.repo repo_bak/
 ```
 
-- 配置网易开源镜像
+- 配置阿里云源镜像
 
 ```shell
-[roo@localhost yum.repos.d]$ sudo wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
+[roo@localhost yum.repos.d]$ sudo wget http://mirrors.aliyun.com/repo/Centos-7.repo
 [roo@localhost yum.repos.d]$ ls
 CentOS7-Base-163.repo repo_bak
 ```
