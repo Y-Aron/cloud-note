@@ -127,7 +127,7 @@ default-authentication-plugin=mysql_native_password
 - 重启MySQL：` systemctl restart mysqld `
 - 修改密码: 使用初始密码登录
 
-```mysql
+```sql
 [root@localhost ~]# mysql -uroot -p
 Enter password:
 Welcome to the MySQL monitor.  Commands end with ; or \g.
@@ -166,7 +166,7 @@ Reload privilege tables now? [Y/n] y                [刷新权限]
 
 - 添加远程登录
 
-```mysql
+```sql
 [root@localhost roo]# mysql -u root -p
 mysql> use mysql
 Query OK, 1 row affected (0.00 sec)
