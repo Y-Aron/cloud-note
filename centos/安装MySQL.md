@@ -5,7 +5,7 @@
 - 查询已有的`MySQL`软件包和依赖包
 
 ```bash
-rpm -pa | grep mysql
+rpm -qa | grep -i mysql
 ```
 
 - 如果查询结果如下
@@ -113,6 +113,44 @@ calhost code]# cat /var/log/mysqld.log | grep password
 2019-10-25T08:51:42.371990Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: hWdlJqe#k7nh
 ```
 
+- 更换加密方式
+
+8.0版本更换了密码的加密方式，我们先用旧的
+
+```bash
+vim /etc/my.cnf
+# default-authentication-plugin=mysql_native_password
+# 将注释取消
+default-authentication-plugin=mysql_native_password
+```
+
+- 重启MySQL：` systemctl restart mysqld `
+- 修改密码: 使用初始密码登录
+
+```mysql
+[root@localhost ~]# mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.18 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+-- 降低密码强制
+mysql> set global validate_password.policy=0;
+Query OK, 0 rows affected (0.00 sec)
+-- 设置密码长度，不能低于4位
+mysql> set global validate_password.length=4;
+Query OK, 0 rows affected (0.00 sec)
+-- 修改密码为 123456
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+```
+
 - 重置密码
 
 ```bash
@@ -126,7 +164,7 @@ Remove test database and access to it? [Y/n] y      [删除test数据库]
 Reload privilege tables now? [Y/n] y                [刷新权限]
 ```
 
-- 登录`MySQL`
+- 添加远程登录
 
 ```mysql
 [root@localhost roo]# mysql -u root -p
@@ -149,6 +187,10 @@ mysql> select host, user from user;
 +-----------+------------------+
 4 rows in set (0.00 sec)
 mysql> create user 'root'@'%' identified '1';
-# 赋予任何主机访问数据的权限
+# 赋予任何主机访问数据的权限，第一次可能会报错，多执行几次
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'WITH GRANT OPTION;
 ```
+
+- 使用 `Navicatn Premium` 远程连接
+
+> 软件包地址：https://pan.baidu.com/s/11foV8BBDA_didK_ZpD37fA

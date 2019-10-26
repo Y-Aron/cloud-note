@@ -97,18 +97,3 @@ sudo apt install mysql-server
 - 安装成功, 使用 root 登录 MySQL
 
 ![](asset/image-20191026163655802.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
