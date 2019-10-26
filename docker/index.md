@@ -4,7 +4,7 @@
 
 ### 1.1 CentOS 7 安装
 
-```shell
+```bash
 # step 1: 安装必要的一些系统工具
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 # Step 2: 添加软件源信息
@@ -39,7 +39,7 @@ sudo service docker start
 
 ### 1.3 Ubuntu 安装
 
-```shell
+```bash
 # step 1: 安装必要的一些系统工具
 sudo apt-get update
 sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
@@ -54,7 +54,7 @@ sudo apt-get -y install docker-ce
 
 > 安装校验
 
-```shell
+```bash
 [root@iZgygfxuddlmm7Z docker]# docker version
 Client: Docker Engine - Community
  Version:           19.03.3
@@ -90,7 +90,7 @@ Server: Docker Engine - Community
 
 ### 2.1 创建配置文件
 
-```shell
+```bash
 [root@iZgygfxuddlmm7Z docker]# cd /etc/docker/
 [root@iZgygfxuddlmm7Z docker]# touch daemon.json
 ```
@@ -107,7 +107,7 @@ Server: Docker Engine - Community
 
 ### 2.3 重启Docker
 
-```shell
+```bash
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
@@ -153,7 +153,7 @@ sudo systemctl restart docker
 
 ### 4.5 构建镜像
 
-```shell
+```bash
 [root@iZgygfxuddlmm7Z ~]# mkdir docker
 [root@iZgygfxuddlmm7Z ~]# cd docker
 [root@iZgygfxuddlmm7Z docker]# mkdir tomcat
@@ -229,7 +229,7 @@ Successfully tagged mytomcat:latest
 >
 > 命令：`docker cp 宿主机文件或目录 容器名称:容器目录`
 
-```shell
+```bash
 [root@iZgygfxuddlmm7Z ~]# docker cp index.js c1:/root
 [root@iZgygfxuddlmm7Z ~]# docker exec -it c1 /bin/bash
 [root@5539951d23e5 /]# ls
@@ -243,7 +243,7 @@ anaconda-ks.cfg  anaconda-post.log  index.js  original-ks.cfg
 >
 > 命令：`docker cp 容器名称:容器文件或目录 宿主机目录`
 
-```shell
+```bash
 [root@iZgygfxuddlmm7Z ~]# docker cp c1:/root/original-ks.cfg /root
 [root@iZgygfxuddlmm7Z ~]# ls
 index.js  original-ks.cfg
@@ -274,7 +274,7 @@ index.js  original-ks.cfg
 
 > 解决方案：重启 `docker`: `systemctl restart docker`
 
-```shell
+```bash
 docker: Error response from daemon: driver failed programming external connectivity on endpoint fervent_bhabha (dc0e233d18b8e75540ace7a217e040fd5d6b81a5d4a95c16f6e7e4e277bdb70d):  (iptables failed: iptables --wait -t nat -A DOCKER -p tcp -d 0/0 --dport 8080 -j DNAT --to-destination 172.17.0.2:8080 ! -i docker0: iptables: No chain/target/match by that name.
  (exit status 1)).
 ```
@@ -287,7 +287,7 @@ docker: Error response from daemon: driver failed programming external connectiv
 
 > Linux子系统中执行以下命令
 
-```shell
+```bash
 echo "export DOCKER_HOST='tcp://0.0.0.0:2375'" >> ~/.bashrc
 source ~/.bashr
 ```

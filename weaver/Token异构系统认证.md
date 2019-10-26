@@ -251,7 +251,7 @@ public class TestToken {
 
 **返回示例**
 
-```
+```json
 {
 	"msg": "ok",
 	"errcode": "0",
@@ -278,7 +278,7 @@ public class TestToken {
 
 **返回错误示例一**
 
-```
+```json
 {
 	"msg": "ok",
 	"errcode": "1",
@@ -291,7 +291,7 @@ public class TestToken {
 
 **返回错误示例二**
 
-```
+```json
 {
 	"msg": "ok",
 	"errcode": "1",
@@ -321,7 +321,7 @@ public class TestToken {
 
 **返回示例**
 
-```
+```json
 {
 	"msg": "获取成功!",
 	"code": 0,
@@ -342,7 +342,7 @@ public class TestToken {
 
 **返回错误示例一**
 
-```
+```json
 {
 	"msg": "认证信息错误！",
 	"code": -1,
@@ -352,7 +352,7 @@ public class TestToken {
 ```
 **返回错误示例二**
 
-```
+```json
 {
 	"msg": "解密失败！",
 	"code": -1,

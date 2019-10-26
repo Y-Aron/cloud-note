@@ -57,7 +57,7 @@
 
 ### 2.1 下载软件包
 
-```shell
+```bash
 sudo apt-get update
 sudo apt-get install wget
 wget https://repo.mysql.com//mysql-apt-config_0.8.14-1_all.deb
@@ -67,7 +67,7 @@ wget https://repo.mysql.com//mysql-apt-config_0.8.14-1_all.deb
 
 - 执行如下命令
 
-```
+```bash
 sudo dpkg -i mysql-apt-config_0.8.14-1_all.deb
 ```
 

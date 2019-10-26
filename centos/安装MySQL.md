@@ -4,13 +4,13 @@
 
 - 查询已有的`MySQL`软件包和依赖包
 
-```shell
+```bash
 rpm -pa | grep mysql
 ```
 
 - 如果查询结果如下
 
-```shell
+```bash
 mysql80-community-release-el7-1.noarch
 mysql-community-server-8.0.11-1.el7.x86_64
 mysql-community-common-8.0.11-1.el7.x86_64
@@ -20,19 +20,19 @@ mysql-community-client-8.0.11-1.el7.x86_64
 
 - 使用以下命令依次删除上面的程序
 
-```shell
+```bash
 yum remove mysql-xxx-xxx-
 ```
 
 - 删除已有的`MySQL`配置文件
 
-```shell
+```bash
 find / -name mysql
 ```
 
 - 可能显示结果如下
 
-```shell
+```bash
 /etc/logrotate.d/mysql
 /etc/selinux/targeted/active/modules/100/mysql
 /etc/selinux/targeted/tmp/modules/100/mysql
@@ -45,7 +45,7 @@ find / -name mysql
 
 - 使用以下命令删除配置文件
 
-```sh
+```bash
 rm -rf /var/lib/mysql
 ```
 
@@ -55,19 +55,19 @@ rm -rf /var/lib/mysql
 
 -  使用rpm 命令查找出要删除的mariadb文件 
 
-```sh
+```bash
 rpm -pa | grep mariadb
 ```
 
 - 可能会显示的结果如下
 
-```sh
+```bash
 mariadb-libs-5.5.56-2.el7.x86_64
 ```
 
 - 删除上面的程序
 
-```sh
+```bash
 rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64
 ```
 
@@ -77,45 +77,45 @@ rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64
 
 - 下载 [MySQL yum 源](https://dev.mysql.com/downloads/repo/yum/)
 
-```shell
+```bash
 wget https://repo.mysql.com//mysql80-community-release-el7-3.noarch.rpm
 ```
 
 - 安装 `yum` 源
 
-```shell
+```bash
 yum localinstall mysql80-community-release-el7-3.noarch.rpm
 ```
 
 - 更新 `yum` 源
 
-```sh
+```bash
 yum clean all
 yum makecache
 ```
 
 - 安装 `MySQL`
 
-```shell
+```bash
 yum install mysql-community-server
 ```
 
 - 启动 `MySQL`
 
-```sh
+```bash
 systemctl start mysqld
 ```
 
 - 查看初始化密码
 
-```shell
+```bash
 calhost code]# cat /var/log/mysqld.log | grep password
 2019-10-25T08:51:42.371990Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: hWdlJqe#k7nh
 ```
 
 - 重置密码
 
-```shell
+```bash
 [root@localhost roo]# mysql_secure_installation
 Set root password? [Y/n] y                          [设置root用户密码]
 New password:                                                   [新密码]
