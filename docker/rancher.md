@@ -82,4 +82,26 @@ nginx:alpine
 
 docker run -itd -p 8888:8080 -v /mnt/c/Users/Code/Desktop/weaver/ecology:/home/work/data/ecology -v /mnt/c/Users/Code/Desktop/weaver/resin:/home/work/app/resin --name=e9 
 
+命令：`docker run -itd --name c4 -v 宿主机目录:容器目录 centos /bin/bash`
+
+
+
+docker run -d -p 8888:8080  --name=e9 e9_190602:v2 -v /home/code/weaver:/home/work
+
+docker run -d -p 8888:8080 -v /home/code/weaver/:/home/work/ --name=e9 e9_190602:v2
+
 http://mirrors.aliyun.com/ubuntu/
+
+/bin/sh /home/work/app/resin/bin/resin.sh stop
+
+
+
+
+
+ java -jar resin.jar status 
+
+docker run -d -p 8888:8080  --name=e9 registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2
+
+registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2
+
+`docker run -d --restart=unless-stopped  -p 8000:80 -p 8443:443 registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2:v5`有道

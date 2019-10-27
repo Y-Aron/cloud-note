@@ -57,9 +57,25 @@
 
 ### 2.1 下载软件包
 
+> 配置 `ssh` 的 `root` 权限
+
+```bash
+# 设置root密码
+sudo passwd root
+# 使用root登录
+su root
+vi /etc/ssh/sshd_config
+# 文件末尾加上
+PermitRootLogin yes
+# 重启服务器
+reboot
+```
+
+> 下载软件包
+
 ```bash
 sudo apt-get update
-sudo apt-get install wget
+sudo apt-get install
 wget https://repo.mysql.com//mysql-apt-config_0.8.14-1_all.deb
 ```
 
@@ -85,7 +101,7 @@ sudo dpkg -i mysql-apt-config_0.8.14-1_all.deb
 
 - 更新系统和软件源并安装MySQL8
 
-```shell
+```bash
 sudo apt update
 sudo apt install mysql-server
 ```
@@ -97,3 +113,105 @@ sudo apt install mysql-server
 - 安装成功, 使用 root 登录 MySQL
 
 ![](asset/image-20191026163655802.png)
+
+- 开启远程访问权限
+
+```mysql
+mysql -uroot -p
+-- 进入mysql库
+use mysql
+-- 更新域属性，'%'表示允许外部访问：
+update user set host='%' where user ='root';
+FLUSH PRIVILEGES;
+-- 执行授权语句
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'WITH GRANT OPTION;
+```
+
+## 3. 安装 Java
+
+> Jdk 软件包下载地址：https://pan.baidu.com/s/1s7xB_7qZSkHZTj3TG4KXAQ
+
+- 上传`Jdk`至服务器
+
+```bash
+scp jdk-8u231-linux-x64.tar.gz root@192.168.253.144:/usr/local/java
+```
+
+- 解压安装包
+
+```bash
+root@server:/usr/local/java# tar -zxvf jdk-8u231-linux-x64.tar.gz
+```
+
+- 配置系统环境变量
+
+![image-20191027151957552](asset/image-20191027151957552.png)
+
+```bash
+# vi /etc/environment
+# 其他配置
+export JAVA_HOME=/usr/local/java/jdk1.8.0_231
+export JRE_HOME=/usr/local/java/jdk1.8.0_231/jre
+export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+```
+
+- 配置用户环境变量
+
+![image-20191027151836262](asset/image-20191027151836262.png)
+
+```bash
+# vim /etc/profile
+# 其他配置
+export JAVA_HOME=/usr/local/java/jdk1.8.0_231
+export JRE_HOME=/usr/local/java/jdk1.8.0_231/jre
+export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH:$HOME/bin
+```
+
+- 重启配置
+
+```bash
+root@server:/home# source /etc/profile
+```
+
+- 检查是否安装成功
+
+```bash
+root@server:/home# java -version
+java version "1.8.0_231"
+Java(TM) SE Runtime Environment (build 1.8.0_231-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.231-b11, mixed mode)
+```
+
+## 4. 安装Tomcat
+
+> tomcat软件包地址：https://pan.baidu.com/s/1fKZ-nAnsdXDWpHlyM_Bs4Q
+
+- 上传`tomcat`至服务器
+
+```bash
+scp apache-tomcat-9.0.27.tar.gz root@192.168.253.144:/usr/local/tomcat
+```
+
+- 解压软件包
+
+```bash
+tar -zxvf apache-tomcat-9.0.27.tar.gz
+```
+
+- 启动`tomcat`
+
+```bash
+cd /usr/local/tomcat/apache-tomcat-9.0.27/bin
+./startup.sh
+Using CATALINA_BASE:   /usr/local/tomcat/apache-tomcat-9.0.27
+Using CATALINA_HOME:   /usr/local/tomcat/apache-tomcat-9.0.27
+Using CATALINA_TMPDIR: /usr/local/tomcat/apache-tomcat-9.0.27/temp
+Using JRE_HOME:        /usr/local/java/jdk1.8.0_231/jre
+Using CLASSPATH:       /usr/local/tomcat/apache-tomcat-9.0.27/bin/bootstrap.jar:/usr/local/tomcat/apache-tomcat-9.0.27/bin/tomcat-juli.jar
+Tomcat started.
+```
+
+- 打开浏览器输入：`http://ip:8080`
+
+![image-20191027153340658](asset/image-20191027153340658.png)
