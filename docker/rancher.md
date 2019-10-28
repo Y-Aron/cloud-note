@@ -79,3 +79,34 @@ docker load --input e9.tar
 - 等待镜像部署，直到出现以下界面则表示部署成功
 
 ![1572254669095](asset/1572254669095.png)
+
+## 5. 更新补丁方案
+
+### 5.1 使用 Dockerfile 重构镜像
+
+创建 `e9` 目录，并创建 `ecology` 、`resin` 和 `Dockerfile`。如下图所示
+
+![1572257036029](asset/1572257036029.png)
+
+其中，`Dockerfile` 内容
+
+```bash
+FROM registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2:v5
+COPY ecology/ /home/work/data/ecology/
+COPY resin/ /home/work/app/resin/
+```
+
+保存文件，使用已下命令重构镜像
+
+```bash
+docker build -t e9:v1 .
+```
+
+### 5.2 使用 wget 更新补丁
+
+- 进入部署的 `e9` 服务
+
+![1572257250173](asset/1572257250173.png)
+
+- 在容器中使用 `wget` 命令下载所要更新的补丁包，并覆盖相应的目录即可。
+
