@@ -56,52 +56,26 @@
 
 ## 4. 部署工作负载
 
+> 部署``e-cology9` 
+>
+> `e9` 镜像下载：https://pan.baidu.com/s/1lNjVYP--OiiGFgONm5dssg，提取码：uogo 
 
+- 载入镜像
 
+![1572254459810](asset/1572254459810.png)
 
+```bash
+docker load --input e9.tar
+```
 
+- 进入集群项目，点击部署服务
 
+![1572253035396](asset/1572253035396.png)
 
-sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.2.8 --server https://127.0.0.1:8443 --token pm5gs9hd6zbltqpgzs2pzsj6pcbswwkhhfg78nkr6gn62g5c9sslwj --ca-checksum 23bf4012df55b34972705eec76f46076828ba185a56b2b94b59e1261bdf29466 --etcd --controlplane --worker
+- 部署  `ecology9` 镜像
 
+![1572254559396](asset/1572254559396.png)
 
+- 等待镜像部署，直到出现以下界面则表示部署成功
 
-sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.2.8 --server https://127.0.0.1:8443 --token r9gcmm6jn2dq7x4b46ftb6ccp62zcdkkrfrmx75gh2l68xs47dxw85 --ca-checksum f586374e80351307e165986d0e6b1fedb4541d36f46046d12af1684e970e8223 --etcd --controlplane --worker
-
-
-
-/home/work/data/ecology
-
-
-
-/home/work/app/resin
-
-nginx:alpine
-
-
-
-docker run -itd -p 8888:8080 -v /mnt/c/Users/Code/Desktop/weaver/ecology:/home/work/data/ecology -v /mnt/c/Users/Code/Desktop/weaver/resin:/home/work/app/resin --name=e9 
-
-命令：`docker run -itd --name c4 -v 宿主机目录:容器目录 centos /bin/bash`
-
-
-
-docker run -d -p 8888:8080  --name=e9 e9_190602:v2 -v /home/code/weaver:/home/work
-
-docker run -d -p 8888:8080 -v /home/code/weaver/:/home/work/ --name=e9 e9_190602:v2
-
-http://mirrors.aliyun.com/ubuntu/
-
-/bin/sh /home/work/app/resin/bin/resin.sh stop
-
-
-
-
-
- java -jar resin.jar status 
-
-docker run -d -p 8888:8080  --name=e9 registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2
-
-registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2
-
-`docker run -d --restart=unless-stopped  -p 8000:80 -p 8443:443 registry.cn-hangzhou.aliyuncs.com/lzrdocker/e91906v2:v5`有道
+![1572254669095](asset/1572254669095.png)

@@ -141,7 +141,9 @@ sudo systemctl restart docker
 
 ### 4.3 拉取镜像
 
-> 命令：`docker pull centos`
+> 命令格式：`docker pull [选项][Docker Registry 地址[:端口号]/]仓库名[:标签]`
+>
+> 如：`docker pull centos`
 
 ![1571024026343](asset/1571024026343.png)
 
@@ -221,9 +223,10 @@ Successfully tagged mytomcat:latest
 
 - `-i`: 交互式容器
 - `-t`：`tty`终端（分配一个终端，操作）
+- `-rm`：容器退出后随之将其删除
 - `-d`：守护式容器，后台运行
-
 - `--name`：指定容器的名称（唯一，不能重复）
+- `bash`： 放在镜像名后的是命令，这里我们希望有个交互式的 `Shell`，因此使用`bash`。
 
 ### 5.3 文件拷贝
 
