@@ -124,7 +124,7 @@ docker build -t e9 .
 
 #### 4.1.3 拉取阿里云镜像
 
-> 关于阿里云镜像的制作以及推送可以查看：
+> 关于阿里云镜像的制作以及推送可以查看： [镜像推送至阿里云](http://wcode.store/#/./docker/index?id=_49-镜像推送) 
 
 ```bash
 sudo docker pull registry.cn-hangzhou.aliyuncs.com/wcode/e91909:v2
