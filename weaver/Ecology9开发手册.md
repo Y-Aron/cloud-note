@@ -1032,5 +1032,4 @@ public class TestWebService {
 
 ### 6.5 容器化部署
 
-> 具体部署资料：
-
+> 具体部署资料： http://wcode.store/#/./docker/rancher 
