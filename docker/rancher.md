@@ -56,9 +56,11 @@
 
 ## 4. 部署工作负载
 
-> 部署``e-cology9` 
->
-> `e9` 镜像下载：https://pan.baidu.com/s/1lNjVYP--OiiGFgONm5dssg，提取码：uogo 
+### 4.1 e9 镜像获取
+
+#### 4.1.1 载入已制作的镜像
+
+- 下载已经制作的镜像包：https://pan.baidu.com/s/1lNjVYP--OiiGFgONm5dssg，提取码：`uogo` 
 
 - 载入镜像
 
@@ -67,6 +69,68 @@
 ```bash
 docker load --input e9.tar
 ```
+
+#### 4.1.2 手动制作镜像
+
+- 下载 `ecology`，`jdk` , `resin`，并放在 `/usr/local/weaver/` 路径下
+
+![image-20191028223658093](asset/image-20191028223658093.png)
+
+- 修改 `resin` 相关配置
+
+```bash
+vim resin/bin/resin.sh
+
+# 头部修改jdk路径
+JAVA_HOME=/usr/local/weaver/jdk
+export JAVA_HOME
+
+vim resin/bin/startresin.sh
+
+# 末尾修改成如下路径
+/usr/local/weaver/resin/bin/resin.sh start
+
+vim resin/conf/resin.xml
+# 修改jdk路径
+<javac compiler="../jdk/bin/javac" args="-encoding UTF-8"/>
+# 修改ecology项目路径
+<web-app id="/" root-directory="../ecology">
+    <servlet-mapping url-pattern='/weaver/*' servlet-name='invoker'/>
+    <form-parameter-max>100000</form-parameter-max>
+</web-app>
+```
+
+- 使用 `Dockerfile` 定制镜像
+
+```dockerfile
+FROM ubuntu
+COPY ecology/ /usr/local/weaver/ecology/
+COPY resin/ /usr/local/weaver/resin/
+COPY jdk1.8.0_231/ /usr/local/weaver/jdk/
+EXPOSE 8080
+RUN chmod +x /usr/local/weaver/resin/bin/resin.sh
+CMD ["/bin/sh", "-c", "/usr/local/weaver/resin/bin/resin.sh console"]
+```
+
+- 构建镜像，注意要把路径切换到 `/usr/local/weaver` 下才能执行以下命令
+
+```bash
+docker build -t e9 .
+```
+
+等待一段时间，镜像构建完毕后查看镜像信息如下：
+
+![image-20191028224503716](asset/image-20191028224503716.png)
+
+#### 4.1.3 拉取阿里云镜像
+
+> 关于阿里云镜像的制作以及推送可以查看：
+
+```bash
+sudo docker pull registry.cn-hangzhou.aliyuncs.com/wcode/e91909:v2
+```
+
+### 4.2 部署服务
 
 - 进入集群项目，点击部署服务
 

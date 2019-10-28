@@ -195,6 +195,38 @@ Successfully tagged mytomcat:latest
 
 > 命令：` docker load --input 本地镜像名称.tar 或 docker load < 本地镜像名称.tar`
 
+### 4.9 镜像推送
+
+> 将本地制作好的镜像推送到阿里云
+
+- 登录阿里云： [https://cr.console.aliyun.com/cn-hangzhou/instances/repositories](https://links.jianshu.com/go?to=https%3A%2F%2Fcr.console.aliyun.com%2Fcn-hangzhou%2Finstances%2Frepositories) 
+
+- 创建命名空间：[https://cr.console.aliyun.com/cn-hangzhou/instances/namespaces](https://links.jianshu.com/go?to=https%3A%2F%2Fcr.console.aliyun.com%2Fcn-hangzhou%2Finstances%2Fnamespaces) 
+
+![image-20191028230049578](asset/image-20191028230049578.png)
+
+- 获取访问凭证： [https://cr.console.aliyun.com/cn-hangzhou/instances/credentials](https://links.jianshu.com/go?to=https%3A%2F%2Fcr.console.aliyun.com%2Fcn-hangzhou%2Finstances%2Fcredentials) 
+
+![image-20191028230111869](asset/image-20191028230111869.png)
+
+- 登录阿里云镜像仓库
+
+```bash
+docker login --username=<阿里云登录账号> registry.cn-hangzhou.aliyuncs.com
+```
+
+- 构建镜像
+
+```bash
+docker build -t registry.cn-hangzhou.aliyuncs.com/<命名空间>/<应用镜像名>:<镜像版本>
+```
+
+- 推送镜像
+
+```bash
+docker push registry.cn-hangzhou.aliyuncs.com/<命名空间>/<应用镜像名>:<镜像版本>
+```
+
 ## 5. 创建容器
 
 > 命令：`docker run [OPTIONS] IMAGE [COMMAND] [ARG...]`
