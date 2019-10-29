@@ -173,12 +173,6 @@ cology.password = password
 >
 > 使用已经封装好的[E9组件库](http://203.110.166.60:8087/spa/coms/index.html#/pc/doc/common-index)进行页面开发或者页面改写会更加便捷迅速。
 
-### 3.4 前端脚手架开发
-
-> 通过配置前端脚手架，开发新页面，并嵌入到`ecology`
->
-> [前端脚手架开发](https://note.youdao.com/ynoteshare1/index.html?id=a890388bdc726d017c0460d56b8b22e2&type=note)
-
 ---
 
 ## 4. 后端开发
