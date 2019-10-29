@@ -32,9 +32,9 @@
     var tail = ""
     if (window.sessionStorage && window.sessionStorage.getItem(key)) {
       tail = window.sessionStorage.getItem(key)
-      window.sessionStorage.setItem(key, tail)
     } else {
       tail = "?v=" + Math.random().toString().slice(-6);
+      window.sessionStorage.setItem(key, tail)
     }
     window.tail = tail
   </script>
