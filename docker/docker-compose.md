@@ -75,3 +75,32 @@ services:
 - 打开浏览器访问：`http://ip:8080/`
 
 ![1572329468280](asset/1572329468280.png)
+
+## 4. 部署 GitLab
+
+```yml
+version: '3'
+services:
+  web:
+    image: 'store/gitlab/gitlab-ce:11.10.4-ce.0'
+    restart: always
+    # 服务器IP
+    hostname: '192.168.179.129'
+    environment:
+      TZ: 'Asia/Shangehai'
+      GILAB_OMNIBUS_CONFIG:
+      	# 服务器IP
+        external_url 'http://192.168.179.129:8080'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        unicorn['port'] = 8888
+        nginx['listen_port'] = 8080
+    ports:
+      - '8080:8080'
+      - '8443:443'
+      - '2222:22'
+    volumes:
+      # 数据持久化
+      - /usr/local/docker/gitlab/config:/etc/gitlab
+      - /usr/local/docker/gitlab/data:/var/opt/gitlab
+      - /usr/local/docker/gitlab/logs:/var/log/gitlab
+```
