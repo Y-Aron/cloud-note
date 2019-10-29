@@ -1,5 +1,7 @@
 # Ecology9 开发手册
 
+> 在线地址： [http://wcode.store/#/./weaver/Ecology9%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C](http://wcode.store/#/./weaver/Ecology9开发手册) 
+
 ## 1. 环境搭建
 
 ### 1.1 Ecology安装和启动
