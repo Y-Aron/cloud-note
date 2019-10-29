@@ -36,9 +36,9 @@
       tail = "?v=" + Math.random().toString().slice(-6);
       window.sessionStorage.setItem(key, tail)
     }
-    var scriptStr = "<script src=\"https://cdn.bootcss.com/docsify/4.9.4/docsify.min.js" + tail + "\></script>\r\n"
-        + "<script src=\"//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js" + tail + "\></script>\r\n"
-        + "<script src=\"https://cdn.jsdelivr.net/npm/docsify-themeable@0" + tail + "\></script>"
+    var scriptStr = "<script src=\"https://cdn.bootcss.com/docsify/4.9.4/docsify.min.js" + tail + "><\/script>\r\n"
+        + "<script src=\"//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js" + tail + "><\/script>\r\n"
+        + "<script src=\"https://cdn.jsdelivr.net/npm/docsify-themeable@0" + tail + "><\/script>"
     document.write(scriptStr)
   </script>
   <script src="./static/index.min.js"></script>
