@@ -215,10 +215,10 @@ Successfully tagged mytomcat:latest
 docker login --username=<阿里云登录账号> registry.cn-hangzhou.aliyuncs.com
 ```
 
-- 构建镜像
+- 构建镜像, 注意不要漏掉末尾的 `.` 
 
 ```bash
-docker build -t registry.cn-hangzhou.aliyuncs.com/<命名空间>/<应用镜像名>:<镜像版本>
+docker build -t registry.cn-hangzhou.aliyuncs.com/<命名空间>/<应用镜像名>:<镜像版本> .
 ```
 
 - 推送镜像
