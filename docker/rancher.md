@@ -133,6 +133,8 @@ sudo docker pull registry.cn-hangzhou.aliyuncs.com/wcode/e91909:v2
 ### 4.2 EM7 镜像使用
 
 > 镜像获取地址：https://pan.baidu.com/s/1FlK6nfRnSIs092M_n2VQag
+>
+> 或者拉取阿里云镜像：`docker pull registry.cn-hangzhou.aliyuncs.com/wcode/em7`
 
 - 下载并载入镜像
 
@@ -143,6 +145,8 @@ docker load --input em.tar
 - 修改数据库配置文件 `application-custom.properties`
 
 > `em7` 使用 `druid` 数据库连接池的密码加密功能，所以要使用以下步骤获取密码的公钥以及加密后的密码
+>
+> 也可以配置参数：`spring.datasource.druid.connection-properties=config.decrypt=false;` 忽略密码加密，跳过1，2，3，4步骤
 
 1. 登录到 `em7` 容器中：`docker run -it --rm em7:v1 bash`
 2. 进入到 `lib` 目录下：`cd /usr/local/tomcat/webapps/ROOT/WEB-INF/lib` 
@@ -167,7 +171,7 @@ spring.datasource.password=XfEfTmuWIwdrtLNSjpDLULupv2iFrIJDF14uD5W4TM1yn9wnMW2/a
 spring.datasource.druid.connection-properties=config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPpbdKQqWLA9Lv83BFUY1L/dtYzroRohQur2uWoQ0uX1pqHfWZIiRDoH+6nnVfp5S/3Z2JhgDeONJnCElQ5/WA0CAwEAAQ==
 ```
 
-5. 以下是 `MySQL` 的相关配置参数，其他参数按需修改
+- 以下是 `MySQL` 的相关配置参数，其他参数按需修改
 
 ```properties
 ################### 数据源配置 ###################
@@ -177,7 +181,7 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.url=jdbc:mysql://192.168.253.145:3306/emp_app?autoReconnect=true&characterEncoding=UTF-8&failOverReadOnly=false&serverTimezone=GMT%2B8&useSSL=true&useUnicode=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
 # 用户名
 spring.datasource.username=root
-spring.datasource.password=8LMQSxEzig8Aec6UzwVBZ1coBbVHJ3x3qsfFOhsPimj+/2dGxdLHG/5ev4/wjByKioxloWHVZ3tSFm9+eytrEw==
+spring.datasource.password=XfEfTmuWIwdrtLNSjpDLULupv2iFrIJDF14uD5W4TM1yn9wnMW2/anSnaVwEMNibsLDH1KX6MhgPPhXKdUrC7g==
 spring.datasource.druid.connection-properties=config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPpbdKQqWLA9Lv83BFUY1L/dtYzroRohQur2uWoQ0uX1pqHfWZIiRDoH+6nnVfp5S/3Z2JhgDeONJnCElQ5/WA0CAwEAAQ==
 ```
 
