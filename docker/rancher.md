@@ -173,7 +173,7 @@ spring.datasource.druid.connection-properties=config.decrypt=true;config.decrypt
 ################### 数据源配置 ###################
 # MySQL数据库
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-# 数据库地址:端口号/数据吗名称
+# 数据库地址:端口号/数据库名称
 spring.datasource.url=jdbc:mysql://192.168.253.145:3306/emp_app?autoReconnect=true&characterEncoding=UTF-8&failOverReadOnly=false&serverTimezone=GMT%2B8&useSSL=true&useUnicode=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
 # 用户名
 spring.datasource.username=root
