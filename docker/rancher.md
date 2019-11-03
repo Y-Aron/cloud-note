@@ -134,7 +134,6 @@ sudo docker pull registry.cn-hangzhou.aliyuncs.com/wcode/e91909:v2
 
 > 镜像获取地址：https://pan.baidu.com/s/1FlK6nfRnSIs092M_n2VQag
 >
-> 或者拉取阿里云镜像：`docker pull registry.cn-hangzhou.aliyuncs.com/wcode/em7`
 
 - 下载并载入镜像
 
