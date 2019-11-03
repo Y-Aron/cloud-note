@@ -130,7 +130,79 @@ docker build -t e9 .
 sudo docker pull registry.cn-hangzhou.aliyuncs.com/wcode/e91909:v2
 ```
 
-### 4.2 部署服务
+### 4.2 EM7 镜像使用
+
+> 镜像获取地址：https://pan.baidu.com/s/1FlK6nfRnSIs092M_n2VQag
+
+- 下载并载入镜像
+
+```bash
+docker load --input em.tar
+```
+
+- 修改数据库配置文件 `application-custom.properties`
+
+> `em7` 使用 `druid` 数据库连接池的密码加密功能，所以要使用以下步骤获取密码的公钥以及加密后的密码
+
+1. 登录到 `em7` 容器中：`docker run -it --rm em7:v1 bash`
+2. 进入到 `lib` 目录下：`cd /usr/local/tomcat/webapps/ROOT/WEB-INF/lib` 
+3. 使用以下命令获取
+
+```bash
+java -cp druid.jar com.alibaba.druid.filter.config.ConfigTools 123456
+# 私钥
+privateKey:MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAg5dmuwPMTysGCAAwlVQ0Q4pjVZHEIieiZm7IuzO/9CM6cJtwT/uxe9tUdofXQuupi63Q4q+5DFCP2zw4lMzVrwIDAQABAkBrZXJraUMizbtDZlxAU5PAF77QhIHtWimZrgrXdfnQloNX6BjfvoTC1ntXA9KjYHv+LuTf/dWe1LaFWDFmh1ahAiEA9bwZfbxoI/9AgNd+2wdrGlM4Xf62GDrhVMWmGopX9lECIQCJFqWQE7hxPxOv6eohV/+qQTB6rtq3Rs9WEZYkeskL/wIhAKINWLYtkHPkudH9yt+AheYHaY27ErTp531zFnY8M4PxAiACEzWuWJ4SGMJTh1bj6lEUYqg5MyxcWdYJl3qOUs14QQIgUHthf23Ty4K14Qtn44eZSqO0jDjSTuaUU68NScAHAZg=
+# 公钥
+publicKey:MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIOXZrsDzE8rBggAMJVUNEOKY1WRxCInomZuyLszv/QjOnCbcE/7sXvbVHaH10LrqYut0OKvuQxQj9s8OJTM1a8CAwEAAQ==
+# 加密后的密码
+password:XfEfTmuWIwdrtLNSjpDLULupv2iFrIJDF14uD5W4TM1yn9wnMW2/anSnaVwEMNibsLDH1KX6MhgPPhXKdUrC7g==
+```
+
+4. 在 `application-custom.properties` 文件中修改以下参数
+
+```properties
+# 加密后的密码赋值
+spring.datasource.password=XfEfTmuWIwdrtLNSjpDLULupv2iFrIJDF14uD5W4TM1yn9wnMW2/anSnaVwEMNibsLDH1KX6MhgPPhXKdUrC7g==
+# 公钥赋值
+spring.datasource.druid.connection-properties=config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPpbdKQqWLA9Lv83BFUY1L/dtYzroRohQur2uWoQ0uX1pqHfWZIiRDoH+6nnVfp5S/3Z2JhgDeONJnCElQ5/WA0CAwEAAQ==
+```
+
+5. 以下是 `MySQL` 的相关配置参数，其他参数按需修改
+
+```properties
+################### 数据源配置 ###################
+# MySQL数据库
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+# 数据库地址:端口号/数据吗名称
+spring.datasource.url=jdbc:mysql://192.168.253.145:3306/emp_app?autoReconnect=true&characterEncoding=UTF-8&failOverReadOnly=false&serverTimezone=GMT%2B8&useSSL=true&useUnicode=true&verifyServerCertificate=false&zeroDateTimeBehavior=convertToNull
+# 用户名
+spring.datasource.username=root
+spring.datasource.password=8LMQSxEzig8Aec6UzwVBZ1coBbVHJ3x3qsfFOhsPimj+/2dGxdLHG/5ev4/wjByKioxloWHVZ3tSFm9+eytrEw==
+spring.datasource.druid.connection-properties=config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPpbdKQqWLA9Lv83BFUY1L/dtYzroRohQur2uWoQ0uX1pqHfWZIiRDoH+6nnVfp5S/3Z2JhgDeONJnCElQ5/WA0CAwEAAQ==
+```
+
+- 重新构建镜像，Dockerfile 内容如下
+
+```dockerfile
+FROM em7:v1
+COPY application-custom.properties /usr/local/work/config/
+```
+
+查看文件结构，并执行构建镜像命令
+
+```bash
+root@learn:~/em7# ls
+application-custom.properties  Dockerfile
+root@learn:~/em7# docker build -t em7:v2 .
+```
+
+- 启动 `em7`，注意 `em7` 对外暴露的端口是 `8999`
+
+```bash
+docker run -it -p 8080:8999 --name=em7 em7:v2
+```
+
+### 4.3 部署服务
 
 - 进入集群项目，点击部署服务
 
