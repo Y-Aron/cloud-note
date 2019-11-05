@@ -415,8 +415,8 @@ public class TestAction implements Action {
 > 任选一个节点 -> 节点前 / 节点后附加操作 
 >
 > ![1570114991641](asset/1570114991641.png)
-
-![1570158010000](asset/1570158010000.png)
+>
+> ![1570158010000](asset/1570158010000.png)
 
 ####  4.3.2  页面扩展接口
 
@@ -495,8 +495,8 @@ public class CronTemplate extends BaseCronJob {
 > ![1570158310329](asset/1570158310329.png)
 
 > **通过计划任务列表的每个计划任务的自定义按钮，可以对每个任务进行状态操作，具体使用如下所示**
-
-![1570156694722](asset/1570156694722.png)
+>
+> ![1570156694722](asset/1570156694722.png)
 
 状态详解：
 
@@ -878,6 +878,92 @@ unchecksessionurl=/api/doc/upload/mobile/uploadFile;/api/doc/upload/mobile/share
 
 >  [Token认证](http://wcode.store/#/./weaver/Token异构系统认证) 
 
+### 5.3 单点登录
+
+> 单点登录：直接通过URL打开 `E9` 页面
+
+- 在 `ecology/WEB-INF/web.xml` 文件默认加上以下配置
+
+```xml
+<servlet>
+    <servlet-name>getToken</servlet-name>
+    <servlet-class>weaver.weaversso.GetToken</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>getToken</servlet-name>
+    <url-pattern>ssologin/getToken</url-pattern>
+</servlet-mapping>
+<filter>
+    <filter-name>WeaverLoginFilter</filter-name>
+    <filter-class>weaver.weaversso.WeaverLoginFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>WeaverLoginFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+    <url-pattern>*.html</url-pattern>
+</filter-mapping>
+```
+
+- 在 `ecology/WEB-INF/prop/WeaverLoginClient.properties` 配置文件中加入以下参数
+
+其中 `test` 指的是下文中的 `appid` 参数，`127.0.0.1` 指的是授权的 IP 地址
+
+```properties
+test=127.0.0.1
+```
+
+- 重启 `E9` 服务
+
+- 使用 `Java` 测试
+
+```java
+package com.wcode.util;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author King
+ * @version 1.0.0
+ * @create 2019/11/5 16:17
+ */
+public class SsoUtils {
+
+    private static final String SSO_API = "/ssologin/getToken";
+
+    public static String getToken(String ip, int port, String appId, String loginId) throws IOException {
+        String url = ip + ":" + port + SSO_API;
+        HttpPost req = new HttpPost(url);
+        List<NameValuePair> params = new ArrayList<>(2);
+        params.add(new BasicNameValuePair("appid", appId));
+        params.add(new BasicNameValuePair("loginid", loginId));
+        req.setEntity(new UrlEncodedFormEntity(params, HTTP.DEF_CONTENT_CHARSET));
+        return HttpUtils.getString(req);
+    }
+
+    public static void main(String[] args) throws IOException {
+        String token = SsoUtils.getToken("http://127.0.0.1", 80, "test", "lcs");
+        System.out.println("ssoToken: " + token);
+        String url = "http://127.0.0.1/systeminfo/version.jsp";
+        HttpPost req = new HttpPost(url);
+        List<NameValuePair> params = new ArrayList<>(1);
+        params.add(new BasicNameValuePair("ssoToken", token));
+        req.setEntity(new UrlEncodedFormEntity(params));
+        System.out.println(HttpUtils.getString(req));
+    }
+}
+```
+
+控制台输出内容如下：
+
+![1572943794860](asset/1572943794860.png)
+
 ## 6. 其他开发
 
 ### 6.1 日志配置
@@ -1026,7 +1112,15 @@ public class TestWebService {
 }
 ```
 
-### 6.5 容器化部署
+### 6.5 SQL缓存注意事项
+
+-  原则上禁止通过非程序渠道直接修改oa数据库数据。如果一定要修改，请修改完数据后，chrome浏览器访问/commcache/cacheMonitor.jsp界面，点击重启加载配置。这样操作修改的数据可以及时生效。 
+-  如果存在第三方程序修改oa数据库的表，则需要将会修改的表的名称以（名称=名称）的格式增加到例外配置文件：ecology\WEB-INF\prop\cacheBackList.properties中，然后再使用重启加载配置，使其生效。 
+-  如果客户二次开发中存在非RecordSet（系统标准sql操作类）类修改数据库里的表，也需要将该表名按注意事项2的方式操作，将其加入例外配置文件中。 
+-  如果客户二次开发中还存在调用自己新建的存储过程，视图，函数（方法）。也需要将存储过程，视图，函数（方法）中涉及到的表名加入到例外配置文件中ecology\WEB-INF\prop\cacheBackList.properties。然后再使用重启加载配置，使其生效。 
+-  集群环境，如果开启sql缓存，必须所有节点全部开启，关闭也必须所有节点同时全部关闭，否则必然存在缓存不同步问题 
+
+### 6.6 容器化部署
 
 > 具体部署资料： http://wcode.store/#/./docker/rancher 
 
