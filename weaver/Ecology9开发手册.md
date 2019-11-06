@@ -171,15 +171,71 @@ cology.password = password
 
 ### 3.3 Ecode在线编辑
 
-> [Ecode在线编辑](https://e-cloudstore.com/ecode/doc)
+> ecode官方文档：https://e-cloudstore.com/ecode/doc
 >
-> 使用已经封装好的[E9组件库](http://203.110.166.60:8087/spa/coms/index.html#/pc/doc/common-index)进行页面开发或者页面改写会更加便捷迅速。
+> E9 技术站地址： https://e-cloudstore.com/e9/index2.html?tdsourcetag=s_pctim_aiomsg
+>
+> 使用已经封装好的组件进行页面开发或者页面改写会更加便捷迅速。
+
+### 3.4 动态注入代码
+
+> 通过前置加载动态注册代码，完全脱离代码块的实现方式。==非官方的方案，使用中有任何问题概不负责！==
+>
+> 官方用法请参考：案例库 -> PC 端 -> 表单提交事件批量控制 -> `register.js` 
+
+- 打开ecode页面，将 [config.js](https://github.com/Y-Aron/wcode/blob/master/WEB-INF/config.js) 中的代码复制到 `系统配置 -> config.js` 中 
+
+- 使用 `Wcode.runScript` 动态注入代码，参数说明如下
+
+| 参数    | 类型            | 可选 | 默认            | 说明                                                         |
+| ------- | --------------- | ---- | --------------- | ------------------------------------------------------------ |
+| id      | string          | 必填 | ‘’              | 流程代码块，则 id 指的是 流程的workflowid；建模代码块，则 id 指的是 模块的 modeId；查询列表代码块，则 id 指的是查询列表的id，即 customid |
+| mode    | string          | 必填 | ''              | Wcode.WF_TYPE: 流程代码块；MODE_TYPE：建模代码块；LIST_TYPE：查询列表代码块 |
+| appId   | function        | 必填 | ''              | ecode 中应用的 id, 可使用 `${appid}` 占位符替换              |
+| nodeId  | integer\|string | 选填 | 0               | 流程使用，指定节点时才加载代码，不指定则只在创建节点时加载   |
+| type    | integer\|string | 选填 | 0               | 建模使用，指定布局时才加载代码，不指定则只在新建布局时加载   |
+| menuIds | string          | 选填 | ‘ALL_MODE_LIST’ | 列表使用，指定查询列表在哪个菜单下时加载，不指定则默认所有菜单下存在该列表都加载。 |
+| noCss   | boolean         | 选填 | true            | 是否禁止单独加载css，通常为了减少css数量，css默认前置加载    |
+| cb      | function        | 选填 | function() {}   | 代码块成功加载完毕的回调方法                                 |
+
+- 流程节点使用
+
+```javascript
+Wcode.runScript({
+	mode: Wcode.WF_TYPE,
+	id: '4',
+	appId: '${appId}'
+})
+```
+
+- 建模布局使用
+
+```javascript
+Wcode.runScript({
+	mode: Wcode.MODE_TYPE,
+	id: '1',
+	appId: '${appId}',
+	type: Wcode.SHOW_TEMPLATE,
+})
+```
+
+- 查询列表使用
+
+```javascript
+Wcode.runScript({
+	mode: Wcode.LIST_TYPE,
+	id: '1',
+	appId: '${appId}'
+})
+```
 
 ---
 
 ## 4. 后端开发
 
 > 代码案例：[E9Demo](https://github.com/Y-Aron/E9Demo/tree/master)
+>
+> 工具类 wcode 代码： https://github.com/Y-Aron/wcode 
 
 ### 4.1 `Java`项目环境搭建
 
@@ -667,18 +723,22 @@ public interface HrmMapper {
 - 获取 `Mapper`
 
 ```java
-package com.engine.wcode.db;
+package com.wcode.db;
 
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.LocalCacheScope;
 import org.apache.ibatis.session.SqlSession;
 import weaver.conn.ConnectionPool;
 import weaver.conn.WeaverConnection;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import static weaver.conn.mybatis.MyBatisFactory.sqlSessionFactory;
 
 /**
+* ⽅法参数不接受 null或 ""
 * @author Y-Aron
 * @create 2019/5/8
 */
@@ -1123,4 +1183,3 @@ public class TestWebService {
 ### 6.6 容器化部署
 
 > 具体部署资料： http://wcode.store/#/./docker/rancher 
-

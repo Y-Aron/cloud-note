@@ -27,7 +27,7 @@ INSERT INTO ECOLOGY_BIZ_EC(ID,APPID,NAME) VALUES("123456","EEAA5436-7577-4BE0-8C
 ## 2. `RSA` 算法
 
 ```java
-package com.engine.wcode.token;
+package com.wcode.crypto;
 
 import javax.crypto.Cipher;
 import java.security.*;
@@ -111,7 +111,7 @@ public class RSA {
 ## 3. `Base64`算法
 
 ```java
-package com.engine.wcode.token;
+package com.wcode.crypto;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
