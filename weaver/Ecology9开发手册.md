@@ -183,6 +183,8 @@ cology.password = password
 >
 > 官方用法请参考：案例库 -> PC 端 -> 表单提交事件批量控制 -> `register.js` 
 
+注意：==Ecode部分版本不能使用，更新至最新版本即可==
+
 - 打开ecode页面，将 [config.js](https://github.com/Y-Aron/wcode/blob/master/WEB-INF/config.js) 中的代码复制到 `系统配置 -> config.js` 中 
 
 - 使用 `Wcode.runScript` 动态注入代码，参数说明如下
@@ -197,6 +199,8 @@ cology.password = password
 | menuIds | string          | 选填 | ‘ALL_MODE_LIST’ | 列表使用，指定查询列表在哪个菜单下时加载，不指定则默认所有菜单下存在该列表都加载。 |
 | noCss   | boolean         | 选填 | true            | 是否禁止单独加载css，通常为了减少css数量，css默认前置加载    |
 | cb      | function        | 选填 | function() {}   | 代码块成功加载完毕的回调方法                                 |
+
+> 在 Ecode 中任意创建一个应用，应用下新建一个 `register.js` 的前置文件，根据不同场景加入对应的代码
 
 - 流程节点使用
 
