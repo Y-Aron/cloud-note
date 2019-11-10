@@ -15,14 +15,14 @@ window.$docsify = {
     responsiveTables: true
   }
 }
-var key = 'CACHE_TAIL'
-var tail = ""
-if (window.sessionStorage && window.sessionStorage.getItem(key)) {
-  tail = window.sessionStorage.getItem(key)
-} else {
-  tail = "?v=" + Math.random().toString().slice(-6);
-  window.sessionStorage.setItem(key, tail)
-}
-var scriptStr = "<script src=\"https://cdn.bootcss.com/docsify/4.9.4/docsify.min.js" + tail + "\"><\/script>\n"
-    + "<script src=\"https://cdn.jsdelivr.net/npm/docsify-themeable@0" + tail + "\"><\/script>"
-document.write(scriptStr)
+// var key = 'CACHE_TAIL'
+// var tail = ""
+// if (window.sessionStorage && window.sessionStorage.getItem(key)) {
+//   tail = window.sessionStorage.getItem(key)
+// } else {
+//   tail = "?v=" + Math.random().toString().slice(-6);
+//   window.sessionStorage.setItem(key, tail)
+// }
+// var scriptStr = "<script src=\"https://cdn.bootcss.com/docsify/4.9.4/docsify.min.js" + tail + "\"><\/script>\n"
+//     + "<script src=\"https://cdn.jsdelivr.net/npm/docsify-themeable@0" + tail + "\"><\/script>"
+// document.write(scriptStr)
