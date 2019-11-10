@@ -13,15 +13,6 @@
     padding: 6px 10px 3px;
     color: #364149
 }
-html {
-    height: 100%
-}
-body {
-    margin: 0;
-    height: 100%;
-    background: #fff;
-}
-
 .markdown-section blockquote {
     padding: 1rem;
     margin: 1rem 0
@@ -56,9 +47,4 @@ body {
     height: .25em;
     margin: 24px 0;
     background-color: #e1e4e8
-}
-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
 }
