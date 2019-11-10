@@ -1,5 +1,6 @@
 * [泛微笔记](./weaver/Ecology9开发手册 "泛微笔记")
 * [Spring笔记](./spring/spring-ioc)
+* [Maven笔记](./maven/index)
 * [Mybatis笔记](./mybatis/index)
 * [Docker笔记](./docker/index "docker入门")
 * [CentOS笔记](./centos/index "CentOS入门")
