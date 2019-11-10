@@ -13,6 +13,14 @@
     padding: 6px 10px 3px;
     color: #364149
 }
+html {
+    height: 100%
+}
+body {
+    margin: 0;
+    height: 100%;
+    background: #fff;
+}
 
 .markdown-section blockquote {
     padding: 1rem;
