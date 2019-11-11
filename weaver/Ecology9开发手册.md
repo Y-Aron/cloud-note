@@ -301,7 +301,7 @@ Wcode.runScript({
 
 - 编译`Java`文件将编译后的`class`文件放入`ecology/classbean/`目录下即可
 
-==注意:== `ecology/classbean` 最好备份, 因为`IDEA`在编译的时候可能会清除掉已有的`classbean`
+**注意:** `ecology/classbean` 最好备份, 因为`IDEA`在编译的时候可能会清除掉已有的`classbean`
 
 后端项目结构以及开发案例详见手册: [E9后端开发指南](https://e-cloudstore.com/e9/file/E9BackendDdevelopmentGuide.pdf)
 
@@ -1184,6 +1184,21 @@ public class TestWebService {
 -  如果客户二次开发中还存在调用自己新建的存储过程，视图，函数（方法）。也需要将存储过程，视图，函数（方法）中涉及到的表名加入到例外配置文件中ecology\WEB-INF\prop\cacheBackList.properties。然后再使用重启加载配置，使其生效。 
 -  集群环境，如果开启sql缓存，必须所有节点全部开启，关闭也必须所有节点同时全部关闭，否则必然存在缓存不同步问题 
 
-### 6.6 容器化部署
+### 6.6 远程调试
+
+> 该方案只能在测试或者开发环境中使用，不允许在生产环境中使用！**切记 ！！！**
+
+配置`JVM`远程调试参数: `resin\conf\resin.properties`
+
+```properties
+# 初始配置
+jvm_args  : -Xmx5550m -Xms5550m -XX:ParallelGCThreads=20 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+DisableExplicitGC -javaagent:wagent.jar
+# 修改后的配置
+jvm_args  : -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9090 -Xmx5550m -Xms5550m -XX:ParallelGCThreads=20 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+DisableExplicitGC -javaagent:wagent.jar
+```
+
+![1573458126874](asset/1573458126874.png)
+
+### 6.7 容器化部署
 
 > 具体部署资料： http://wcode.store/#/./docker/rancher 
