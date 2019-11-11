@@ -1199,6 +1199,8 @@ jvm_args  : -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=909
 
 ![1573458126874](asset/1573458126874.png)
 
+总结：更为详细的配置过程参考： https://www.jianshu.com/p/4c657bf02cb3 
+
 ### 6.7 容器化部署
 
 > 具体部署资料： http://wcode.store/#/./docker/rancher 
