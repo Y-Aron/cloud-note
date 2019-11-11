@@ -179,11 +179,11 @@ cology.password = password
 
 ### 3.4 动态注入代码
 
-> 通过前置加载动态注册代码，完全脱离代码块的实现方式。==非官方的方案，使用中有任何问题概不负责！==
+> 通过前置加载动态注册代码，完全脱离代码块的实现方式。**非官方的方案，使用中有任何问题概不负责！**
 >
-> 官方用法请参考：案例库 -> PC 端 -> 表单提交事件批量控制 -> `register.js` 
+> 官方用法请参考：[全局流程代码块整合](https://e-cloudstore.com/ecode/doc#4、全局流程代码块整合)
 
-注意：==Ecode部分版本不能使用，更新至最新版本即可==
+注意：**Ecode部分版本不能使用，更新至最新版本即可**
 
 - 打开ecode页面，将 [config.js](https://github.com/Y-Aron/wcode/blob/master/WEB-INF/config.js) 中的代码复制到 `系统配置 -> config.js` 中 
 
