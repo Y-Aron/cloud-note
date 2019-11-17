@@ -1,8 +1,9 @@
 * [泛微笔记](./weaver/Ecology9开发手册 "泛微笔记")
 * [Spring笔记](./spring/spring-ioc)
+* [微服务笔记](./微服务/spring-cloud-alibaba)
 * [Maven笔记](./maven/index)
 * [Mybatis笔记](./mybatis/index)
 * [Docker笔记](./docker/index "docker入门")
 * [CentOS笔记](./centos/index "CentOS入门")
 * [Ubuntu笔记](./ubuntu/index "Ubuntu入门")
-* [Spring-Cloud-Alibaba](./微服务/spring-cloud-alibaba)
+
