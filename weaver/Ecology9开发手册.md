@@ -288,7 +288,7 @@ Wcode.runScript({
 
 #### 4.1.2 项目环境搭建
 
-> 使用 `IDEA` 编辑器
+> 传统 `JavaWeb` 项目搭建
 
 - 创建`Java`项目
 - 添加所需依赖
@@ -302,6 +302,10 @@ Wcode.runScript({
 - 编译`Java`文件将编译后的`class`文件放入`ecology/classbean/`目录下即可
 
 **注意:** `ecology/classbean` 最好备份, 因为`IDEA`在编译的时候可能会清除掉已有的`classbean`
+
+> 使用 `Maven` 构建项目
+
+相对于传统的 `JavaWeb` 项目而言，使用 maven 可以做到快速搭建项目，项目结构层次分明，并且 jar 间的依赖关系可以得到直观的体现。当然需要二开人员对 maven 有一定的了解，并且熟悉 ec 系统所使用的依赖，防止版本冲突。
 
 后端项目结构以及开发案例详见手册: [E9后端开发指南](https://e-cloudstore.com/e9/file/E9BackendDdevelopmentGuide.pdf)
 
