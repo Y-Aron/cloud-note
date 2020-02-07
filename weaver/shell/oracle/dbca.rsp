@@ -1,0 +1,27 @@
+[GENERAL]
+RESPONSEFILE_VERSION = "11.2.0"
+# 必须指定为创建数据库
+OPERATION_TYPE = "createDatabase"
+[CREATEDATABASE]
+# 数据库的Global database name
+GDBNAME = "orcl"
+# 数据库的实例名
+SID = "orcl"
+TEMPLATENAME = "General_Purpose.dbc"
+STORAGETYPE=FS
+# 指定数据文件存储的目录
+DATAFILEDESTINATION =/usr/local/oracle/oradata
+# 指定数据文件恢复的目录
+RECOVERYAREADESTINATION=/usr/local/oracle/flash_recovery_area
+# 指定字符集
+CHARACTERSET = "AL32UTF8"
+# 指定国家字符集
+NATIONALCHARACTERSET= "AL16UTF16"
+LISTENERS=LISTENER
+TOTALMEMORY = "700"
+# 指定sys用户密码[必填]
+SYSPASSWORD = "123456"
+# 指定system用户密码[必填]
+SYSTEMPASSWORD = "123456"
+# 指定使用自动内存管理
+AUTOMATICMEMORYMANAGEMENT = "TRUE"
